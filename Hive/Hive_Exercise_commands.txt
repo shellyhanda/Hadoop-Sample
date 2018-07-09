@@ -1,0 +1,61 @@
+--ROW FORMAT is HiveQL clause it says that each row in the data file is tab delimited text.Hive expects there to be 3 fields in each row,corresponding to the table columns,with --fields sepatated by tabs and rows by newlines. 
+CREATE TABLE IF NOT EXISTS records (year String,temp INT,qty INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+--Running this command tells Hive to put the specified local file in its warehouse directory.There is no attempt to parse the file and store it in an internal database --format,because Hive doesn't mandate any particular file format .Files are stored verbatim they are not modified by Hive.
+Load data local inpath '/root/shelly/myHive/sample.txt' overwrite into table records;
+
+-- Hive transforms this query into a job which executes on our behalf then prints the resulus to the console.It is the ability to execute SQL queries against our raw data that gives -- Hive its power
+select year,max(temp) from records where temp !=29 and qty in(9) group by year;
+
+--To see the current value of any property in Hive.by itseld set will list all the properties and their values set by Hive
+hive> set hive.enforce.bucketing;
+
+*********************************************************************
+--Json file upload
+scp -P 2222 StateVector.query.json root@127.0.0.1:/root/shelly/myHive
+CREATE TABLE json_table ( json string );
+ 
+LOAD DATA LOCAL INPATH  '/root/shelly/myHive/sample.json' INTO TABLE json_table;
+
+CREATE TABLE json_serde (
+  Foo string,
+  Bar string,
+  Quux struct<QuuxId:int, QuuxName:string>
+)
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe';
+ 
+LOAD DATA LOCAL INPATH '/root/shelly/myHive/sample.json' INTO TABLE json_serde;
+---------------------------------------------------------------------------
+
+CREATE TABLE state_vector_serde(BEMSID struct<Query:string,Type:string,Value:string,Label:string>)
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe';  
+LOAD DATA LOCAL INPATH '/root/shelly/myHive/StateVector.query.json' INTO TABLE state_vector_serde;
+
+select BEMSID.Query as Query,BEMSID.Type as Type,BEMSID.Value as Value,BEMSID.Label as Label from state_vector_serde;
+--------------------------------------------------------------------------
+CREATE TABLE state_vector_serde(BEMSID struct<Query:string,Type:string,Value:string,Label:string>,
+DataSecurity struct<Constraint:string,Description:string,Flag:string,Persist:string,Type:string,Mask:string,
+Value:struct<DataBlockFilename:struct<Description:string,Constraint:string,Mask:string,Value:string,Flag:string,Persist:string,Type:string>>>)
+ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe';  
+
+LOAD DATA LOCAL INPATH '/root/shelly/myHive/StateVector.query.json' INTO TABLE state_vector_serde;
+
+select BEMSID.Query as Query,BEMSID.Type as Type,BEMSID.Value as Value,BEMSID.Label as Label,DataSecurity.Constraint cons,DataSecurity.Description desc,DataSecurity.Flag f,DataSecurity.Persist per,DataSecurity.Type Type,DataSecurity.Mask Mask,DataSecurity.value.DataBlockFilename.Description Description,DataSecurity.value.DataBlockFilename.Value Value from state_vector_serde;
+
+--------------------------------------
+
+CREATE TABLE hbase_hive_state_vector(Query STRING,Type STRING,Value STRING,Label STRING,Constraint STRING, 
+ds_Description string,ds_Flag string,ds_Persist string,ds_Type string,ds_Mask string,dbf_Description String,dbf_Constraint string,dbf_Mask string,dbf_Value string,dbf_Flag string,dbf_Persist string,dbf_Type string)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,BEMSID:Type,BEMSID:Value,BEMSID:Label,DataSecurity:Constraint,DataSecurity:Description,DataSecurity:Flag,DataSecurity:Persist,DataSecurity:Type,DataSecurity:Mask,DataBlockFilename:Description,DataBlockFilename:Constraint,DataBlockFilename:Mask,DataBlockFilename:Value,DataBlockFilename:Flag,DataBlockFilename:Persist,DataBlockFilename:Type")
+TBLPROPERTIES ("hbase.table.name" = "state_vector");
+
+INSERT INTO TABLE hbase_hive_state_vector select BEMSID.Query,BEMSID.Type,BEMSID.Value,BEMSID.Label,DataSecurity.Constraint,DataSecurity.Description,DataSecurity.Flag ,DataSecurity.Persist,DataSecurity.Type Type,DataSecurity.Mask,DataSecurity.value.DataBlockFilename.Description,DataSecurity.value.DataBlockFilename.Constraint,DataSecurity.value.DataBlockFilename.Mask,DataSecurity.value.DataBlockFilename.Value,DataSecurity.value.DataBlockFilename.Flag,DataSecurity.value.DataBlockFilename.Persist,DataSecurity.value.DataBlockFilename.Type from state_vector_serde;
+
+*************************************************************************************
+CREATE TABLE xls_table ( xls string );
+ 
+LOAD DATA LOCAL INPATH  '/root/shelly/myHive/Test_Sheet.xlsx' INTO TABLE xls_table;
+
+
+
