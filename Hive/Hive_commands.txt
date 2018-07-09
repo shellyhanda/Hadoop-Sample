@@ -1,0 +1,11 @@
+--ROW FORMAT is HiveQL clause it says that each row in the data file is tab delimited text.Hive expects there to be 3 fields in each row,corresponding to the table columns,with --fields sepatated by tabs and rows by newlines. 
+CREATE TABLE IF NOT EXISTS records (year String,temp INT,qty INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+--Running this command tells Hive to put the specified local file in its warehouse directory.There is no attempt to parse the file and store it in an internal database --format,because Hive doesn't mandate any particular file format .Files are stored verbatim they are not modified by Hive.
+Load data local inpath '/root/shelly/myHive/sample.txt' overwrite into table records;
+
+-- Hive transforms this query into a job which executes on our behalf then prints the resulus to the console.It is the ability to execute SQL queries against our raw data that gives -- Hive its power
+select year,max(temp) from records where temp !=29 and qty in(9) group by year;
+
+--To see the current value of any property in Hive.by itseld set will list all the properties and their values set by Hive
+hive> set hive.enforce.bucketing;
