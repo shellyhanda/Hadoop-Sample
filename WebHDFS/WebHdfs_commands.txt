@@ -1,0 +1,98 @@
+*******************************************
+WebHDFS REST API
+WebHDFS concept is based on HTTP operations like GET, PUT, POST and DELETE. Operations like OPEN, GETFILESTATUS, LISTSTATUS are using HTTP GET, others like CREATE, MKDIRS, RENAME, SETPERMISSIONS are relying on HTTP PUT. APPEND operations is based on HTTP POST, while DELETE is using HTTP DELETE.
+Authentication can be based on user.name query parameter (as part of the HTTP query string) or if security is turned on then it relies on Kerberos.
+The standard URL format is as follows: http://host:port/webhdfs/v1/?op=operation&user.name=username
+By default the namenode and datanode ports are 50070 and 50075, respectively,
+*******************************************
+--Check if Webhdfs is enabled in the hadoop
+Goto /usr/hdp/2.6.1.0-129/hadoop/etc/hadoop
+open hdfs-site.xml check if webhdfs is enabled
+ <property>
+      <name>dfs.webhdfs.enabled</name>
+      <value>true</value>
+      <final>true</final>
+    </property>
+*******************************************************************************************	
+##curl -i "webhdfs://sandbox.hortonworks.com:50070/user?op=LISTSTATUS" --=> not working
+**********************************************************************************************
+Curl transfers data from or to a server, using one of the protocols: HTTP, HTTPS, FTP, FTPS, SCP, SFTP, TFTP, DICT, TELNET, LDAP or FILE. (To transfer multiple files use wget or FTP.).
+-i, --include 
+(HTTP) Include the HTTP-header in the output. The HTTP-header includes things like server-name, date of the document, HTTP-version and more.
+-L, --location
+(HTTP) If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response code), this option will make curl redo the request on the new place.
+-X, --request <command>
+(HTTP) Specifies a custom request method to use when communicating with the HTTP server. The specified request method will be used instead of the method otherwise used (which defaults to GET). 
+-T, --upload-file <file>
+This transfers the specified local file to the remote URL. If there is no file part in the specified URL, curl will append the local file name.
+-v, --verbose
+Makes the fetching more verbose/talkative. Mostly usable for debugging. Lines starting with '>' means "header data" sent by curl, '<' means "header data" received by curl that is hidden in normal cases and lines starting with '*' means additional info provided by curl.
+-k, --insecure
+(SSL) This option explicitly allows curl to perform "insecure" SSL connections and transfers. All SSL connections are attempted to be made secure by using the CA certificate bundle installed by default. All connections considered "insecure" will fail unless -k/--insecure is used.
+************************************************************************************************
+--(1) Check directory status
+curl -i "http://sandbox.hortonworks.com:50070/webhdfs/v1/user?op=GETFILESTATUS"
+-- (2) Create a directory
+curl -i -X PUT "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test?&op=MKDIRS"
+-- (3) Create a file
+To create a file requires two steps. First we need to run the command against the namenode then follows the redirection and execute the WebHDFS API against the appropriate datanode.
+curl -i -X PUT "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test/webhdfs-test.txt?op=CREATE"
+curl -i -T webhdfs-test.txt "http://sandbox.hortonworks.com:50075/webhdfs/v1/user/shelly_webhdfs_test/webhdfs-test.txt?op=CREATE&namenoderpcaddress=sandbox.hortonworks.com:8020&createflag=&createparent=true&overwrite=false"
+-- (4) Open and read a file 
+In this case we run curl with -L option to follow the HTTP temporary redirect URL.
+curl -i -L "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test/webhdfs-test.txt?op=OPEN"
+--(5) Rename a directory
+curl -i -X PUT "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test?op=RENAME&destination=/user/shelly_webhdfs_test_new"
+-- (6) Delete a directory 
+This scenario results in an exception if the directory is not empty since a non-empty directory cannot be deleted.
+First the file in the directory needs to be deleted and then the empty directory can be deleted, too.
+curl -i -X DELETE "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test/webhdfs-test.txt?op=DELETE"
+curl -i -X DELETE "http://sandbox.hortonworks.com:50070/webhdfs/v1/user/shelly_webhdfs_test?op=DELETE&destination=/user/shelly_webhdfs_test"
+--(7) List the files/dtrectories present in HDFS
+curl -i 'http://sandbox.hortonworks.com:50070/webhdfs/v1/user/?op=LISTSTATUS'
+
+*************************************************************************************************
+Knox -- 8443
+ curl -i -k -u root -X GET 'https://sandbox.hortonworks.com:8442/gateway/Sandbox/webhdfs/v1/user/?op=LISTSTATUS'
+ curl -i -k -u root:India@123 -X GET 'https://sandbox.hortonworks.com:8443/gateway/default/webhdfs/v1/?op=LISTSTATUS'
+curl -iku root:India@123 -X put 'https://sandbox.hortonworks.com:8442/gateway/default/webhdfs/v1/user/?op=MKDIRS&permission=777'
+
+
+curl -i -k -u root -X GET 'https://sandbox.hortonworks.com:8443/gateway/knox_sample/webhdfs/v1/user/?op=LISTSTATUS'
+curl -i -k -u root -X GET 'https://sandbox.hortonworks.com:8443/gateway/sample/namenode/api/v1/user/?op=LISTSTATUS'
+
+>>>>>>>>>>>>>>>>>>>>>>>
+curl -i -k -u raj_ops:raj_ops -X GET 'https://sandbox.hortonworks.com:8443/gateway/sandbox_knox/webhdfs/v1/?op=LISTSTATUS'
+
+curl -i -k -u raj_ops:raj_ops -X GET "https://localhost:8443/gateway/knoxsso/api/v1/websso"
+
+curl -i -k -u raj_ops:raj_ops -X GET "https://sandbox.hortonworks.com:8443/gateway/admin/api/v1/topologies
+***********************************************************************************************************************************************************************************
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<<<<<<<<<<<<                  KNOX on HDO4                         >>>>>>>>>>>>>>>>>
+*********************************************************************************************
+HDO4 -- Chg18kky
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/HelloWorldSSH?op=LISTSTATUS'
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test?op=MKDIRS'
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/Solution17.query.json?op=CREATE'
+
+curl -k -u svchdphdo4ecfd:b949naLkhg -T Solution17.query.json "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/Solution17.query.json?_=AAAACAAAABAAAAEgLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CPf8JCsNfmH8-eBOEIalumbjqzyV6cjCxS1fttUVtCtgb4jdvXTGFijJWIm2Hg9LUFnrJJC6N3ky3sDG2X-kQ67ptvvhGa-Gcq_1kwE1L4vNkCajdkma7G6nW1cbc4pXUA27ZsIi4U02mbnD3nJ9JYqX9OlsMpwVVrv1e5hu9XF40LufoScEiJ9AIpcPcvmZEUnEpwFGjf4rcCHvpnCf8rv2c9GveMvAb2Ze6Lr15EdYNBBE2vTLi3dc6AUA8nHP7t-_qTlxviLRRvDMGfCjQFZ4y-x0no4VSaGYBeQCC67-rUDkNBnds1mEcfYT41ESS19mZf4_AuRJE4OSEPaVCYZZuCDduhSoPpIZWPhxUZih"
+
+/user/svchdphdo4ecfd/webhfs_test/Test
+curl -vvv -k -iv -u svchdphdo4ecfd -X GET  "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/?op=GETFILESTATUS"
+
+curl -vvv -k -iv -u svchdphdo4ecfd -X GET  "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd?op=GETFILESTATUS"
+
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/myfile.txt?op=CREATE'
+
+curl -k -u svchdphdo4ecfd:b949naLkhg -T myfile.txt "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/myfile.txt?_=AAAACAAAABAAAAEwLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CFApDNFrQkSnnw_E8-aysnOGcGigcQyNs7ns5GkCdr7Spd3KuOHzZJBQz0QFJ5vj4qfdhEBl8VvOmICxkPzW_o8UgXw7aou_9914w4TGAMD5kaJqpbSxfz1HPVIgDVFTnkoPg-0iu07vIr2Aff-wYvQW_Y9BWGJzLzyLbHhenFwzL4BcUKYcsDMIILkROp1uWcoYbpPDEfwZFKDgM8J-soPBSMCx_ei7e0S0BlCRXwGVut_t4E6f8yqS1aO_ocjWeDXAoYFa6rVWWthDKusFsTwLSW5NJj1ab6zn6MEGj0yAptpL9u2DAftitjU5TeKwP0CK3zBBjYW2qgQSYeV_pDdSN59Y8PnS4hfpkgGTK7i4lhGi5g6MCP2WywoDwklcxw"
+
+--For 600 MB file command
+dd if=/dev/zero of=solution_10GB.tar count=1024 bs=1000000K
+
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_10GB.tar?op=CREATE'
+
+
+curl -k -u svchdphdo4ecfd:b949naLkhg -T solution_10GB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_10GB.tar?_=AAAACAAAABAAAAEwmP8ah-CgYMHqW6EYNiPpbuweDVmlbbW6bnpXvXmGoVUYIudAnF5KpsYAIKwZtyW46hriwfMnXfSFFXkyLgOgPOE1uh38sKFgw9d5rhisl8HrSjcuWAa_4dpxnqbVNmQzYMQ3UR3Wq1epYQuggWus9b3LvtiylMeIR0D_z5ROVknrICM2sjRJ9VFWtrNh4Nn3LZ4QP_8_SrJJ67u0-zyURk-7WZV_FM9h-1c4f96mK-QfSuPwToSd4JUa-ypALAFFRAi8dHVNdbNILFFkyR05Q90ir0iRca8lRBMlA1uPvkim3RHnBb1u4rRoWl74AouBuI_VRhBDHcBZBeTR5ZFeST8CrNUZ_bHMCjf0un_FNo-rQkRWM6L9wuLU-WVerunriMhnHk5hgFkIxZfvgEmeq8pwH3vPHkbkKCIoGZkmdQiuMLOxgFlePg"
+

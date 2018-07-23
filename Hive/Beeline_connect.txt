@@ -1,0 +1,53 @@
+
+HDP supports two Hive clients: the Hive CLI and Beeline. The primary difference between the two involves how the clients connect to Hive.
+
+The Hive CLI, which connects directly to HDFS and the Hive Metastore, and can be used only on a host with access to those services.
+
+Beeline, which connects to HiveServer2 and requires access to only one .jar file: hive-jdbc-<version>-standalone.jar.
+
+Hortonworks recommends using HiveServer2 and a JDBC client (such as Beeline) as the primary way to access Hive. This approach uses SQL standard-based authorization or Ranger-based authorization. However, some users may wish to access Hive data from other applications, such as Pig. For these use cases, use the Hive CLI and storage-based authorization.
+----------------------------------------------------------------------
+[root@sandbox data]# beeline
+Beeline version 1.2.1000.2.6.1.0-129 by Apache Hive
+beeline> !connect jdbc:hive2://127.0.0.1:10000/shellytest
+Connecting to jdbc:hive2://127.0.0.1:10000/shellytest
+Enter username for jdbc:hive2://127.0.0.1:10000/shellytest:
+Enter password for jdbc:hive2://127.0.0.1:10000/shellytest:
+Connected to: Apache Hive (version 1.2.1000.2.6.1.0-129)
+Driver: Hive JDBC (version 1.2.1000.2.6.1.0-129)
+Transaction isolation: TRANSACTION_REPEATABLE_READ
+0: jdbc:hive2://127.0.0.1:10000/shellytest> show databases;
++----------------+--+
+| database_name  |
++----------------+--+
+| default        |
+| foodmart       |
+| shellytest     |
+| xademo         |
++----------------+--+
+4 rows selected (6.626 seconds)
+0: jdbc:hive2://127.0.0.1:10000/shellytest> use shellytest;
+No rows affected (0.87 seconds)
+0: jdbc:hive2://127.0.0.1:10000/shellytest> show tables;
++--------------------------+--+
+|         tab_name         |
++--------------------------+--+
+| hbase_hive_state_vector  |
+| json_serde               |
+| json_table               |
+| state_vector_serde       |
+| xls_table                |
++--------------------------+--+
+5 rows selected (0.531 seconds)
+0: jdbc:hive2://127.0.0.1:10000/shellytest> select * from state_vector_serde;
++-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+|                    state_vector_serde.bemsid                    |                                                                                                                                   state_vector_serde.datasecurity                                                                                                                                   |
++-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+| {"query":"true","type":"int","value":"10310","label":"BEMSID"}  | {"constraint":null,"description":null,"flag":"O","persist":"archive","type":"DataBlock","mask":"6666","value":{"datablockfilename":{"description":"File containing data block definition","constraint":null,"mask":"4444","value":"DataSecurity.in","flag":"D","persist":"Plan","type":"string"}}}  |
++-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+1 row selected (3.631 seconds)
+0: jdbc:hive2://127.0.0.1:10000/shellytest>
+
+************************
+
+!connect jdbc:hive2://hdo4241-23.ca.boeing.com:10000

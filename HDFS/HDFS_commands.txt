@@ -1,0 +1,6 @@
+ hdfs dfs -df -h
+Filesystem          Size     Used  Available  Use%
+hdfs://BOEINGHDO4  1.2 P  204.1 T   1016.5 T   17%
+
+ hdfs dfs -du -h /user/svchdphdo4ecfd
+ hadoop fs -expunge

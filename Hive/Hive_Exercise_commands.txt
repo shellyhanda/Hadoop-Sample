@@ -57,5 +57,7 @@ CREATE TABLE xls_table ( xls string );
  
 LOAD DATA LOCAL INPATH  '/root/shelly/myHive/Test_Sheet.xlsx' INTO TABLE xls_table;
 
+***********************
+val result = sqlContext.sql("FROM shellytest.state_vector_serde SELECT *")
 
 

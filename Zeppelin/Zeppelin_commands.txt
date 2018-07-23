@@ -1,0 +1,36 @@
+
+http://zeppelin.apache.org/docs/0.7.0/index.html
+Apache Zeppelin is a web-based notebook project that enables interactive data analytics.Notebooks track methodology as to make it easier to reproduce results and calculations with different data sets.The notebook interface allows you to break down what would otherwise be monolithic scripts into modular collections of executable code. This enables the user to run code blocks and examine their respective outputs independently from the rest of the notebook. This functionality has become critical for managing cognitive and computational complexity in increasingly elaborate data science workflows.
+
+https://www.analyticsvidhya.com/blog/2018/05/starters-guide-jupyter-notebook/
+
+***Added Hive as a Interpreter in the Zeppelin Notebook first but sql interpreter can also understand the Hive commands
+%Hive 
+show databases;
+use shellytest;
+show tables;
+select BEMSID.Query as Query,BEMSID.Type as Type,BEMSID.Value as Value,BEMSID.Label as Label from state_vector_serde;
+
+%sql
+show databases;
+use shellytest;
+show tables;
+select BEMSID.Query as Query,BEMSID.Type as Type,BEMSID.Value as Value,BEMSID.Label as Label from state_vector_serde;
+
+****************************
+You can access Hive tables via Zeppelin in two ways:
+
+1) Use Zeppelin's native Hive interpreter directly by starting a code block with '%sql' interpreter command and issuing commands like 'show tables' or 'select * from table'
+
+2) Via Spark by creating HiveContext and then loading hive table into DataFrame, like this:
+
+%spark
+ 
+// sc is an existing SparkContext.
+val sqlContext = new org.apache.spark.sql.hive.HiveContext(sc)
+ 
+sqlContext.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING)")
+sqlContext.sql("LOAD DATA LOCAL INPATH 'examples/src/main/resources/kv1.txt' INTO TABLE src")
+ 
+// Queries are expressed in HiveQL
+sqlContext.sql("FROM src SELECT key, value").collect().foreach(println)

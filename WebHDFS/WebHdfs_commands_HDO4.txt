@@ -1,0 +1,27 @@
+
+
+curl -vvv -k -iv -u svchdphdo4ecfd:XXXX -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_300MB.tar?op=CREATE'
+
+curl -k -u svchdphdo4ecfd:XXXX -T solution_300MB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_300MB.tar?_=AAAACAAAABAAAAEwLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CB7vNGaHVmezHF6NJJx1iHxdieccV08KXd3ciS2xeaREzU6zzz8KXw3MMj87pZRBsOEu2R_yIZ23NAt9aF9ITztKBIesgrlNivTJmDx6ZR1s1M-EDuFIU1kousze7nO6h4ePk_88bqIhgMcVNpB0sCjQvHfBk94b7rbKcBQdTCr6KbzsFbo30V6_GNjr9nykFPZyc16btAYuB79yTAdXhq2DHlS6YUg1BRYCDZsdAdy8h5uwkFqL5EEswP3mDg7xxVZJM-X9n68YM-MlaTUkkgyrRi7lSiGs7A7St3OyZcimV2tpWNLRkiADa-0GvnGKXrjPTO74IQyQYdIVy5gov-7K2sunWZ0LnjjNyHlliA7jTi3FffJXm0Pxe1sTDZuaww"
+
+--For 600 MB file command
+dd if=/dev/zero of=solution_600MB.tar count=1024 bs=600K
+
+dd if=/dev/zero of=solution_100GB.tar count=1024 bs=100000K ==>100 MB
+100*1000 ==> 1
+curl -vvv -k -iv -u svchdphdo4ecfd:XXXX -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_600MB.tar?op=CREATE'
+
+curl -k -u svchdphdo4ecfd:XXXX -T solution_600MB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_600MB.tar?_=AAAACAAAABAAAAEgLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CFLX4LQU_10N7pcoSKylpGg_aRwsiWzOKPw5i-O9Sp63SwhS--tQ-5SeJJ7H1DDeJexOTiNhSCm8eKuqacz_Zc8ldTXMgBRTCOhMYgLWK_RRRFqIfq-1SSV4noQ6YKGIpG4GiRX_9kWkjdjSItnBymwE2QzSq6g7fiI7f10uUWURImkGqzGBfrA3QkD1EviOCtTlZNvQSFLLeskb7ZcCG8ikYscK_fSL2DbRCclOvY0mmg0vTLF6Enyb2qZbTfx1kCzgIkptotZhO7XIgXYkXvIuYXrzozJTrPDnt8cyLPUBNUIe3yEN68foVT_v2CD3qxXkjIa8r2tjtqBAlxdLUyRaHRhwQVqmtBcL9P8JcojX"
+
+
+
+curl -vvv -k -iv -u svchdphdo4ecfd:XXXX -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_1GB.tar?op=CREATE'
+curl -k -u svchdphdo4ecfd:XXXX -T solution_1GB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_1GB.tar?_=AAAACAAAABAAAAEgLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CNugslsxH2ZGj1x7Z2s4TUasv-WjUkdlOseRbzyNzXAql5rsv_T548eKc_lYf8hba07qiRa1dDa0E7lGbm4cdJy0GAVcPCH6BItz534NmoOzIIV-Q1W1e2qzb7P2u-dTtx5O9DL92-UJvl7Ai6EmVPnNjBjf0ONMsDf03ELiKIKHJ8J1Lod933MKzx-l9Zq2eKYL1UNfI1xiIeou-4yQuvAmpv30bcPrniu23JMinGADqmv1T3Z-lvqg-w095EWociRcWLTr1Oi3O-NFLLY6HS-Z1GQKKB7YYqox-li8htTA63fVINfTGNHb8yUbxXshbPjPz2zuQlkIdiqT0gorqkyc68mCIqQjb7q2_4ebVClO"
+
+
+curl -vvv -k -iv -u svchdphdo4ecfd:XXXX -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_12GB.tar?op=CREATE'
+curl -k -u svchdphdo4ecfd:XXXX -T solution_12GB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_12GB.tar?_=AAAACAAAABAAAAEgLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CE9cPafAMR7M8_Xsr6D1Ec0MJzMXXYWtyKmD-9866OutbW0PelRqeyY48B-QlUDpO-w6s4MIu01djmBIIzUZp2tW20sZv1u0VbPO7XH_IiNQImp_8n9yxyLfXpXV6VlwSxxLpVtGx1MrqnRgG0z4Ixss3etCNwesaJtQclyP-RnUaUkqo3TFPlGWC5kw03fJj32pmdSkAVuLnhaZZ18xzHK0nOaY-eiuqjb8ccBANfxW9Qf9zk5NyrHj08vTxUw4Aze4duI8k5TmvzVTvEEDgLbE-VsGYv7mw9LzOripuLxBlCZiQJcbOwF2BAQj4rYaiEWr24EYpHniWV3jM2Lglt2VTXTWffhKr5Q5QAHBCa6B"
+
+
+curl -vvv -k -iv -u svchdphdo4ecfd:XXXX -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar?op=CREATE'
+curl -k -u svchdphdo4ecfd:XXXX -T solution_100GB.tar "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar?_=AAAACAAAABAAAAEgLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CG-O6ROBAUZ05iYRobH3GGcJ7glf2tCswfnVDJ_KndcQCcfO6jje68sZaKS2wMofO3SeZnmExPouC2EWHR0SOpQlI5ytr-Vbk3VCltkcTiHvo-wJpCYBi57IvfB6_BebCOjznvGL1QCreYuoHVSVmKrfhdsgDaz5sulHI_aCX61vaB-kTe2QbLp4ejh6iEYf69QlVZGMZbyPvKowxct33eImcGMdcwNf9BEesvF_LRKitX0Zs97yzott89WnIcRdTRW25vms4-AhmsnZ5qsrL151A7f1aDyOlre7Z3kAMmbWuzyRKrMMO_eV1xvLezA8DO2YT1Ti0JNGTto01O8_fAppKIUH7lSnhkJ_tPSfShuB"
