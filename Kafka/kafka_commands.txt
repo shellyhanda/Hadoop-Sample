@@ -6,7 +6,10 @@ Goto /usr/hdp/current/kafka-broker/bin
 --Producer
 ./kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic Shelly
 --consumer
-./kafka-console-consumer.sh --bootstrap-server sandbox.hortonworks.com:6667 --topic Shelly --from-beginning
+./kafka-console-consumer.sh --bootstrap-server sandbox.hortonworks.com:6667 --topic Shelly --zookeeper localhost:2181 --from-beginning
 ****************************
+
+
+./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic connect-test
 zookeeper-client
 >ls /broker/ids

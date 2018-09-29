@@ -1,0 +1,22 @@
+To run this program,
+
+1) 	Place the da_ping.jar and override.properties in the same folder location.
+	(Copy override.properties file which is available within the jar)
+
+2)	Update override.properties based on the environment. 
+
+3)	To debug, uncomment the logging properties in override.properties file and set the value as DEBUG
+
+4)	Execute the jar with the following command from the folder location which has da_ping.jar and override.properties
+	java -jar da_ping.jar --spring.config.location=override.properties
+	or
+	java -jar da_ping.jar <table-name> --spring.config.location=override.properties
+	
+	java -jar da_ping.jar ecfd_dev:test_25Apr2018 --spring.config.location=override_HDO4.properties
+	
+	java -jar da_ping.jar hbase --spring.config.location=override_HDO4.properties
+	
+	java -jar da_ping.jar phoenix --spring.config.location=override_HDO4.properties
+	
+
+

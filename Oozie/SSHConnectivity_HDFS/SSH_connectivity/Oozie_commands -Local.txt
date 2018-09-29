@@ -1,0 +1,23 @@
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -config job.properties -submit
+
+0000000-180730215516883-oozie-oozi-W
+2) Run job:
+$ oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -start 0000000-180730215516883-oozie-oozi-W
+
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -info 0000000-180730215516883-oozie-oozi-W
+
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -logs 0000000-180730215516883-oozie-oozi-W
+
+watch oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -info 0000000-180730215516883-oozie-oozi-W
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -kill  0000000-180730215516883-oozie-oozi-W
+ job_1532987982362_0001
+ 
+ hadoop job -logs job_1532987982362_0001 attempt_1532987982362_0001_m_000000_0 > July_2018_001.txt
+ 
+ *************************************
+oozie job  http://sandbox.hortonworks.com:11000/oozie -config job.properties -run
+
+watch oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -info 0000002-180730215516883-oozie-oozi-W
+
+ job_1532987982362_0003
+hadoop job -logs job_1532987982362_0003 attempt_1532987982362_0003_m_000000_0 > July_2018_31.txt

@@ -1,0 +1,129 @@
+&&&&&&&&&&&&&&&&& Command to create the sample data on Charon &&&&&&&&&&&&&&&
+dd if=/dev/zero of=solution_100GB.tar_dd count=1024 bs=100000000K
+&&&&&&&&&&&&&&&&&&&&&&
+
+############Copy file from Charon to HDO4#################
+
+*******------------WEBHDFS Using  Knox-----------***************
+:: Goto the file folder location in Charon.The first CURL command will generate a redirect URL.Using that redirect URL in the second CURL command will copy the file from Charon location to HDO4
+
+curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/myfile.txt?op=CREATE'
+curl -k -u svchdphdo4ecfd:b949naLkhg -T myfile.txt "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/myfile.txt?_=AAAACAAAABAAAAEwLrvNvrT9dOncWeI7S1ZAikQQNmFTJJ123MRidamTOpPRLEbFKBs_CFApDNFrQkSnnw_E8-aysnOGcGigcQyNs7ns5GkCdr7Spd3KuOHzZJBQz0QFJ5vj4qfdhEBl8VvOmICxkPzW_o8UgXw7aou_9914w4TGAMD5kaJqpbSxfz1HPVIgDVFTnkoPg-0iu07vIr2Aff-wYvQW_Y9BWGJzLzyLbHhenFwzL4BcUKYcsDMIILkROp1uWcoYbpPDEfwZFKDgM8J-soPBSMCx_ei7e0S0BlCRXwGVut_t4E6f8yqS1aO_ocjWeDXAoYFa6rVWWthDKusFsTwLSW5NJj1ab6zn6MEGj0yAptpL9u2DAftitjU5TeKwP0CK3zBBjYW2qgQSYeV_pDdSN59Y8PnS4hfpkgGTK7i4lhGi5g6MCP2WywoDwklcxw"
+
+******************--------------Using Shell Script placed on Charon --------------****************************
+::This command runs the "TransferFileHpcHdp" script located at Charon to copy the file /ptmp/webhfs_test/solution_12GB.tar on charon to HDO4 Edgenode
+time ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp get /ptmp/webhfs_test/solution_12GB.tar > solution_12GB.tar
+
+::This command runs the "TransferFileHpcHdp" script located at Charon to copy the file /ptmp/webhfs_test/solution_12GB.tar on charon to HDO4 HDFS
+time ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp get /ptmp/webhfs_test/solution_600MB.tar | hadoop fs -put  - /user/svchdphdo4ecfd/test_script_res/solution_600MB.tar
+
+*********---------------SFTP Transfer----------------**********************************
+::Used a Java code with JSCH API to use SFTP to copy file from Charon to HDO4
+
+************-----------RSync----------------------****************************************
+::Used a script rsynccopy.sh created on HDO4 with the below commands
+time rsync -avh zh722e@charon.cs.boeing.com:/ptmp/webhfs_test/solution_100GB.tar .
+time hadoop fs -put solution_100GB.tar /user/svchdphdo4ecfd/webhfs_test/
+
+************---------Gzip command---------------****************
+time gzip solution_600MB.json
+
+*****************----------SSH command With Oozie by calling DA Service-------******
+curl -X POST http://da-dev.web.boeing.com:8090/web/api/ecfd/transaction/savetest -H 'content-type: application/json' -d '{"filePath": "/ptmp/webhfs_test/solution_600MB.tar","planId": "105175","processId": "23458","userName": "zh722e","bemsId": "2857659","serverName": "charon.cs.boeing.com"}'
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+############Copy file from HDO4 to Charon#################
+
+
+*******------------WEBHDFS Using  Knox-----------***************
+:: Goto the file folder location in Charon.The first CURL command will generate a redirect URL.Using that redirect URL in the second CURL command will copy the file from Charon location to HDO4
+
+time curl -vvv -k -iv -u svchdphdo4ecfd:b949naLkhg -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar?op=OPEN'
+time curl -k -u svchdphdo4ecfd:b949naLkhg "https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar?_=AAAACAAAABAAAAEAIcprBy0ZzwIAt0LKZSoz99rf232rJOGXHGI6M4FBQANGSIzO_kcNnh3Cf6GYLQjNN3ywDt-ENKrV0hMpm1Cwe8xK_wlAFQMjHQFY3IJZDsbyPzS0guCEFShDTB4pbrPtmLNnVKtYXiWqizjNGKxMVQ2xnqTL42fj_uNe_0wLGB_l598DvGfZlaEPXy3oDcQe5DLHD09z_5At0ci15FSz9sRqILDLDjieIOa803A677tFBrf5iRPqHpNCn0wojtuE_HsReEk9xHQMXrz7daAP6_LuP7dKGLZa56fVftQTpOTudn6_iDHhvY6jXlZkrict56W2FmuzWZIBPxk8E2pDyJpq3nQJOtK-YKgMm6JrpNMBcV9uxTXTRA" > solution_100GB.tar
+
+
+
+*****************----------SSH command With Oozie by calling DA Service-------******
+
+curl -X POST http://da-dev.web.boeing.com:8090/web/api/ecfd/data/save -H 'content-type: application/json' -d '{"planId":"PD84429","bemsId":2857659,"dataSource":"ecfd","jsonType":"container","files":[{"queryJson":"/ptmp/webhfs_test/container.query.json","filePath":"/ptmp/webhfs_test/solution_300MB.tar","hpcServerName":"charon.cs.boeing.com","hpcUserId":"zh722e","preferredUid":"zh722e"}]}'
+
+/user/svchdphdo4ecfd/dev/cba/archive/ecfdda/input/0045253-180830103410177-oozie-oozi-W/10082842866830544/eebmj_1537977589494_solution_300MB.tar
+
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"planId": "6321","JSONType":"Containers","userid":"2857659","fileKeyUser" : "2857659",	"JsonMovedFrom" : "SearchPage","containers": [{"id": "1537977612969-20180926","containerName": "cname-1-shelly-26Sep-001","containerId": "cid-1","fileName": [],"targetHpcServer": [{"hpcServerName": "charon.cs.boeing.com","refDirectories": ["/ptmp/webhfs_test/26Sep2018"],"serviceUserId": "zh722e", "preferredUid": "zh722e"}]}]}' http://da-dev.web.boeing.com:8090/web/api/ecfd/containers/push
+
+
+******************--------------Using Shell Script placed on Charon --------------****************************
+time hadoop fs -cat /user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar | ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp put /ptmp/webhfs_test/26Sep2018/solution_100GB.tar
+
+#################---WT Sample data Tar the folder----#################
+time tar -cvf /ptmp/og510a/ecfd/WTData/testing/DR0151-populated.tar /ptmp/og510a/ecfd/WTData/DR0151-populated
+du -h | sort -h
+time gzip DR0151-populated.tar
+forward copy.....
+time ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp get /ptmp/og510a/ecfd/WTData/testing/DR0151-populated.tar | hadoop fs -put  - /user/svchdphdo4ecfd/test_script_res/DR0151-populated.tar
+
+time ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp get /ptmp/og510a/ecfd/WTData/testing/DR0151-populated.tar.gz | hadoop fs -put  - /user/svchdphdo4ecfd/test_script_res/DR0151-populated.tar.gz
+
+Reverse copy....
+time hadoop fs -cat /user/svchdphdo4ecfd/test_script_res/DR0151-populated.tar | ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp put /ptmp/og510a/ecfd/WTData/testing/reverse/DR0151-populated.tar
+
+time hadoop fs -cat /user/svchdphdo4ecfd/test_script_res/DR0151-populated.tar.gz | ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp put /ptmp/og510a/ecfd/WTData/testing/reverse/DR0151-populated.tar.gz
+
+gunzip -d DR0151-populated123.tar.gz
+------------------------------------------------Error with 100 GB----------------------------------------------------------------------------------------------------------
+zh722e@hdo4241-23:~> time hadoop fs -cat /user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar | ssh -q -i .ssh/id_rsa_ecfddev charon.cs.boeing.com /boeing/sw/ecfd/cg/dev/bin/TransferFileHpcHdp put /ptmp/webhfs_test/reverseCopy/solution_100GB.tar
+
+------------------------------------------------------------------------------------------------------------------------------
+18/09/26 08:30:48 WARN hdfs.DFSClient: Exception while reading from BP-565481012-39.7.128.2-1485279715024:blk_1100325792_26611933 of /user/svchdphdo4ecfd/webhfs_test/solution_100GB.tar from DatanodeInfoWithStorage[39.7.128.18:1019,DS-f169a911-2778-42b4-a00f-ff71618fe5f2,DISK]
+java.net.SocketTimeoutException: 60000 millis timeout while waiting for channel to be ready for read. ch : java.nio.channels.SocketChannel[connected local=/39.7.136.23:55094 remote=hdo4240-18.ca.boeing.com/39.7.128.18:1019]
+        at org.apache.hadoop.net.SocketIOWithTimeout.doIO(SocketIOWithTimeout.java:164)
+        at org.apache.hadoop.net.SocketInputStream.read(SocketInputStream.java:161)
+        at org.apache.hadoop.hdfs.protocol.datatransfer.PacketReceiver.readChannelFully(PacketReceiver.java:258)
+        at org.apache.hadoop.hdfs.protocol.datatransfer.PacketReceiver.doReadFully(PacketReceiver.java:209)
+        at org.apache.hadoop.hdfs.protocol.datatransfer.PacketReceiver.doRead(PacketReceiver.java:171)
+        at org.apache.hadoop.hdfs.protocol.datatransfer.PacketReceiver.receiveNextPacket(PacketReceiver.java:102)
+        at org.apache.hadoop.hdfs.RemoteBlockReader2.readNextPacket(RemoteBlockReader2.java:201)
+        at org.apache.hadoop.hdfs.RemoteBlockReader2.read(RemoteBlockReader2.java:152)
+        at org.apache.hadoop.hdfs.DFSInputStream$ByteArrayStrategy.doRead(DFSInputStream.java:781)
+        at org.apache.hadoop.hdfs.DFSInputStream.readBuffer(DFSInputStream.java:837)
+        at org.apache.hadoop.hdfs.DFSInputStream.readWithStrategy(DFSInputStream.java:897)
+        at org.apache.hadoop.hdfs.DFSInputStream.read(DFSInputStream.java:945)
+        at java.io.DataInputStream.read(DataInputStream.java:100)
+        at org.apache.hadoop.io.IOUtils.copyBytes(IOUtils.java:94)
+        at org.apache.hadoop.io.IOUtils.copyBytes(IOUtils.java:62)
+        at org.apache.hadoop.io.IOUtils.copyBytes(IOUtils.java:122)
+        at org.apache.hadoop.fs.shell.Display$Cat.printToStdout(Display.java:107)
+        at org.apache.hadoop.fs.shell.Display$Cat.processPath(Display.java:102)
+        at org.apache.hadoop.fs.shell.Command.processPaths(Command.java:317)
+        at org.apache.hadoop.fs.shell.Command.processPathArgument(Command.java:289)
+        at org.apache.hadoop.fs.shell.Command.processArgument(Command.java:271)
+        at org.apache.hadoop.fs.shell.Command.processArguments(Command.java:255)
+        at org.apache.hadoop.fs.shell.FsCommand.processRawArguments(FsCommand.java:119)
+        at org.apache.hadoop.fs.shell.Command.run(Command.java:165)
+        at org.apache.hadoop.fs.FsShell.run(FsShell.java:297)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:76)
+        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:90)
+        at org.apache.hadoop.fs.FsShell.main(FsShell.java:356)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

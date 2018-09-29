@@ -1,0 +1,34 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="Ooozie-Java-Test">
+    <start to="shell1"/>
+	<action name="sshAction">
+        <ssh xmlns="uri:oozie:ssh-action:0.1">
+            <host>${focusNodeLogin}</host>
+	    <command>${shellScriptPath}</command>
+            <capture-output/>
+        </ssh>
+	<ok to="end"/>
+        <error to="fail"/>
+    </action>
+<action name='shell1'>
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                  <name>mapred.job.queue.name</name>
+                  <value>${queueName}</value>
+                </property>
+            </configuration>
+            <exec>${myscript}</exec>
+            <argument>A</argument>
+            <argument>B</argument>
+            <file>${myscriptPath}</file> <!--Copy the executable to compute node's current working directory -->
+        </shell>
+        <ok to="end" />
+        <error to="fail" />
+    </action>
+    <kill name="fail">
+        <message>Hello World failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

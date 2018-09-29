@@ -1,0 +1,4 @@
+nameNode=hdfs://BOEINGHDO4:8020
+jobTracker=hdo4240-3.ca.boeing.com:8050
+queueName=default
+oozie.wf.application.path=${nameNode}/user/${user.name}/Oozie_shell_action

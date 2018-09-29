@@ -1,0 +1,4 @@
+to make the SSH private key working the dsa or rsa key for the user should have 700 permission only.that is no rwx permission should be there for others.
+The correct permissions for the file are below:
+
+-rwx------  1 zh722e ecfd   668 Jan 10  2017 id_dsa

@@ -1,0 +1,34 @@
+sqoop import -Dorg.apache.sqoop.splitter.allow_text_splitter=true --connect jdbc:mysql://10.0.0.234:3306/sqoop?zeroDateTimeBehavior=CONVERT_TO_NULL --username root -P --split-by id --columns id,name --table customer  --target-dir /user/root/sqoop_test/test_custom --fields-terminated-by "," --hive-import --create-hive-table --hive-table sqoop_workspace.customers
+
+ ––driver com.mysql.jdbc.Driver 
+*******************************************************************************************************
+CREATE USER 'A5567707'@'%' IDENTIFIED BY 'root';
+grant all on *.* to 'A5567707'@'%';
+
+CREATE USER 'root'@'%' IDENTIFIED BY 'root';
+grant all on *.* to 'root'@'%';
+
+mysql> SELECT host, user,password FROM mysql.user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| %         | A5567707         |
+| %         | root             |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+6 rows in set (0.00 sec)
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+CREATE USER '%'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+
+
+scp -P 2222 mysql-connector-java-8.0.12.jar root@127.0.0.1:/usr/hdp/current/sqoop-client/lib
+scp -P 2222 mysql-connector-java-8.0.12.jar root@127.0.0.1:/usr/share/java
+At /usr/share/java in Sandbox
+ln -sfn /usr/share/java/mysql-connector-java-8.0.12.jar jdbc-mysql.jar
+ln -sfn /usr/share/java/mysql-connector-java-8.0.12.jar mysql-connector-java.jar
+ ********************************************************************************************
+ sqoop import --connect jdbc:mysql://10.0.0.234:3306/sqoop --username root --password root

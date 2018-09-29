@@ -1,0 +1,35 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="Ooozie-Java-Test">
+    <start to="sshAction"/>
+    <action name="sshAction">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.queue.name</name>
+                    <value>default</value>
+                </property>
+            </configuration>
+            <main-class>com.shelly.poc.oozie.sshtest.SSHTest</main-class>
+            <arg>-----BEGIN DSA PRIVATE KEY-----
+MIIBugIBAAKBgQD29Og7HiBFvFTa5FjS8cSIsA0N2x/EiYWKg2L1EDcDrdJLXFRR
+u/xOJ+qTi1tE0nB9yRy2GNDSuhp/iNev7LKDr9hSF3QzUSR9NbXEAmqACsqy0hAy
+xas7YBbs7FCgxAKCTVqXBDJLFqtrVAeZPi+Q5vQcB4MNnXcleX/MJ10MfQIVAL6f
+t72QBhEsTTI12DM1tBMb5iOjAoGAELkUQ0aSJhYnlkoKGSb+54i5x0s0iNm8xtY2
+fppzg8f/E36UdE/FNpyNl1olRZMV618q7z5WJltPnH6pTjAOW8KALrO7N0m8aIMf
+8viwDZ/1DbRcAvG2HToTbeXSU/ZIc6ozajSarKyvT4n00lMRIvNeYwjbo0vlsZJq
+pt5P28MCgYBZqDXJ2u3ME2tBmGos/SkckhE3FzmwLW8tL/nVt6wAtWQtkFKa6JDZ
+7HAlKbyuYAVXB5RygXLhP9zHNgFsC4vh000YRsNoHvFAkgKytGqC1/ID019pvPjh
+mEYAH5+DRllgDF4tDLbTr6EAOUcyjghWjaY8nFBaWkYR5yq4htckrgIUcydOTf7H
+iNzhYXOFMngLVs2+da4=
+-----END DSA PRIVATE KEY-----</arg>
+            <arg>arg2</arg>
+        </java>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Hello World failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
