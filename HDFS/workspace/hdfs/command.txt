@@ -1,1 +1,3 @@
 zh722e@hdo4241-23:~/MyWork/performancetest/sftp> hadoop jar sftpFileTransfer.jar hdfsconnection.SFTPTransfer solution_100GB.tar
+
+ svchdphdo4ecfd@hdo4241-23:~/sftp_reverse> hadoop jar sftpFileTransferReverse.jar hdfsconnection.SFTPTransferReverse solution_300MB.tar_1

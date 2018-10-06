@@ -13,3 +13,10 @@ Goto /usr/hdp/current/kafka-broker/bin
 ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic connect-test
 zookeeper-client
 >ls /broker/ids
+
+
+./kafka-topics.sh --list --zookeeper hdo4240-2:2181
+
+./kafka-topics.sh --list --zookeeper  hdo4240-2:2181,hdo4240-3:2181,hdo4240-4:2181  --topic ecfddev
+
+svchdphdo4ecfd.service.keytab

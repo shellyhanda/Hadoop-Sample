@@ -1,0 +1,84 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="Ooozie-Java-Test">
+    <start to="shell1"/>
+	<action name="sshAction">
+        <ssh xmlns="uri:oozie:ssh-action:0.1">
+            <host>${focusNodeLogin}</host>
+	    <command>${shellScriptPath}</command>
+            <capture-output/>
+        </ssh>
+	<ok to="end"/>
+        <error to="fail"/>
+    </action>
+<action name='shell1'>
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                  <name>mapred.job.queue.name</name>
+                  <value>${queueName}</value>
+                </property>
+            </configuration>
+            <exec>${myscript}</exec>
+            <argument>-----BEGIN RSA PRIVATE KEY-----
+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
+-----END RSA PRIVATE KEY-----</argument>
+            <argument>B</argument>
+           <file>${myscriptPath}</file> <!--Copy the executable to compute node's current working directory -->
+        </shell>
+        <ok to="end" />
+        <error to="fail" />
+    </action>
+    <kill name="fail">
+        <message>Hello World failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

@@ -107,7 +107,8 @@ java.net.SocketTimeoutException: 60000 millis timeout while waiting for channel 
         at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:90)
         at org.apache.hadoop.fs.FsShell.main(FsShell.java:356)
 
-
+***********************************FFTP3******************
+./fftp3 -cv -p 8080 /ptmp/webhfs_test/solution_300MB.tar 55 hdo4241-23.ca.boeing.com
 
 
 

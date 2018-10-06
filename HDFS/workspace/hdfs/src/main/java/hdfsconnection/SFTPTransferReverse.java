@@ -45,7 +45,26 @@ public class SFTPTransferReverse {
 				fileToCopy=args[1];
 			}
 			System.out.println("fileToCopy="+fileToCopy);
-	  		
+			inputStream =fs.open(new Path("/user/svchdphdo4ecfd/webhfs_test/"+fileToCopy));
+			
+			if (!session.isConnected()) {
+	  			session.connect();
+	  		}
+	    	 System.out.println("session.isConnected()***********"+session.isConnected());
+	          channel=session.openChannel("sftp");
+	          channel.connect();
+	          sftpChannel=(ChannelSftp)channel;
+	          System.out.println(" ChannelSftp c>>>>>>>>>>"+sftpChannel);
+	          String outputFolder="/ptmp/webhfs_test/SFTP_reverse";
+	          sftpChannel.cd(outputFolder);
+	          outputStream = sftpChannel.put(fileToCopy);
+	          System.out.println("Copy started********....");
+				IOUtils.copyBytes(inputStream, outputStream, conf, true);
+				System.out.println("File copy Completed");
+				long endTime   = System.currentTimeMillis();
+				long totalTime = endTime - startTime;
+				System.out.println("Total Time Taken---="+totalTime/1000 +"seconds");
+	          
 	  		/*if (!session.isConnected()) {
 	  			session.connect();
 	  		}
