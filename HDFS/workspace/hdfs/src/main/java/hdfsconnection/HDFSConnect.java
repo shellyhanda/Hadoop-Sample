@@ -18,7 +18,8 @@ public class HDFSConnect {
 	    FileSystem fs = FileSystem.get(conf);
 	    fs.createNewFile(new Path("/user/root/test2.txt"));
 	    FileStatus[] status = fs.listStatus(new Path("/user/root"));
-	    fs.copyFromLocalFile(new Path("C:\\MyWork\\AWS_commands_HCL.txt"), new Path("/user/root/test_hdfs"));
+	    System.out.println("status="+status.length);
+	    //fs.copyFromLocalFile(new Path("C:\\MyWork\\AWS_commands_HCL.txt"), new Path("/user/root/shelly/AWS_commands_HCL.txt"));
 	    for(int i=0;i<status.length;i++){
 	        System.out.println(status[i].getPath());
 	    }

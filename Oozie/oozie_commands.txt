@@ -1,0 +1,162 @@
+curl -i -k -u svchdpdevecfd -X POST -H "Content-Type: application/xml" -d @oozie-solutionjob-config.xml  'https://hdedge.ca.boeing.com:8442/gateway/BOEINGHDO1/oozie/v1/jobs?action=start'
+
+from Shelly Handa to Everyone:
+kinit
+from Thangamani Selvarasu to Everyone:
+hbase shell
+from Thangamani Selvarasu to Everyone:
+count 'solution_new'
+
+watch oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -info 0000026-170112102500782-oozie-oozi-W
+
+count 'solution_new',  INTERVAL =>1
+-------------------------------------------------------------------------------------------------------
+ yum install oozie oozie-client
+ /usr/hdp/current/oozie-server/bin
+ 
+ cd /usr/hdp/current/oozie-client and
+ oozie-setup.sh prepare-war
+ Start Oozie as a daemon process run:
+$ bin/oozied.sh start
+To start Oozie as a foreground process run:
+$ bin/oozied.sh run
+Check the Oozie log file logs/oozie.log to ensure Oozie started properly.
+ OOZIE_LOG=/var/log/oozie
+ 
+ echo "Start Oozie"
+su - oozie -c "cd /var/log/oozie; /usr/lib/oozie/bin/oozie-start.sh"
+tail -$line  /var/log/oozie/oozie.log
+
+
+ Using the Oozie command line tool check the status of Oozie:
+> oozie admin -oozie http://sandbox.hortonworks.com:11000/oozie/ -status
+
+
+Oozie web console --> http://localhost:11000/oozie/
+
+/home/hdfs/shelly/my_oozie_work
+https://www.infoq.com/articles/oozieexample
+https://community.hortonworks.com/repos/6528/sample-oozie-workflows.html
+
+su -l yarn -c "/usr/hdp/current/hadoop-yarn-resourcemanager/sbin/yarn-daemon.sh start resourcemanager"
+ps -ef | grep -i resourcemanager
+
+su -l yarn -c "/usr/hdp/current/hadoop-yarn-nodemanager/sbin/yarn-daemon.sh start nodemanager"
+ps -ef | grep -i nodemanager
+************************************************************************************************************************************
+Mapreduce:
+
+javac -classpath `hadoop classpath`:`hbase classpath` hdfstest.java
+hadoop jar /root/shelly/mapreduce/wordcount.jar com.demo.map.hello.WordCount /user/root/wordcout/input /user/root/wordcout/output
+
+export HADOOP_CLASSPATH=/home/hbaseuser/hadoopclasspathJars/*
+*************************************************************************************************************************************
+
+
+*************************************************
+https://oozie.apache.org/docs/3.3.2/DG_CommandLineTool.html
+*************************************************
+scp -P 2222 HelloWorldTest root@127.0.0.1:/root/shelly/oozie
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -config job.properties -run
+
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
+
+# Forward copy command dated 17 Jan 2018
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config ecfdda-job-processing.properties -run -Ddirectory="{\"files\" : [{\"uid\":\"01\",\"hpcUserId\":\"hbaseuser\",\"hpcServerName\":\"ec2-34-214-238-173.us-west-2.compute.amazonaws.com\",\"queryJson\":\"/home/hbaseuser/TestFiles/NonTarTest/3658/al.solution3658.query.json\",\"preferredUid\":\"zh722e\",\"filePath\":\"/home/hbaseuser/TestFiles/NonTarTest/3658/al.solution3658.json\"}],\"encryptedPrivateKey\" : \"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\"}" -DfileType=nontar -DdataFormat=phoenix
+
+# Reverse copy command dated 17 Jan 2018
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config ecfdda-job-processing.properties -run -DmultiplePaths="{\"requests\":[{\"uid\":\"4927957329587\",\"rowkey\":\"1515152234693-20180105\",\"loc\":\"/user/hbaseuser/devTest/cba/archive/ecfdda/input/0000530-180102065321628-oozie-oozi-B/5104901973311/DA_Test_Dec22.query.json\",\"type\":\"query\",\"hpcServerName\":\"ec2-34-214-238-173.us-west-2.compute.amazonaws.com\",\"refDirectory\":\"/home/hbaseuser/config/fold001\",\"serviceUserId\":\"hbaseuser\",\"preferredUid\":\"zh722e\"},{\"uid\":\"4927957329588\",\"rowkey\":\"1515152234753-20180105\",\"loc\":\"/user/hbaseuser/devTest/cba/archive/ecfdda/input/0000530-180102065321628-oozie-oozi-B/5104901854593/Test1_Dec11.png\",\"type\":\"file\",\"hpcServerName\":\"ec2-34-214-238-173.us-west-2.compute.amazonaws.com\",\"refDirectory\":\"/home/hbaseuser/config/fold000\",\"serviceUserId\":\"hbaseuser\",\"preferredUid\":\"zh722e\"}],\"encryptedPrivateKey\":\"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\"}" -DdataFormat=hbase
+
+0014542-180508155309311-oozie-oozi-B
+0014543-180508155309311-oozie-oozi-C
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0014544-180508155309311-oozie-oozi-W -- For single file DA movement completyed successfully 11:30 1/30
+
+0042619-180830103410177-oozie-oozi-W
+
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0042619-180830103410177-oozie-oozi-W
+
+0073414-180927113010380-oozie-oozi-W
+
+watch oozie job -oozie http://hdo5251-31.ca.boeing.com:11000/oozie -info 0073536-180927113010380-oozie-oozi-W
+
+for 50 file oozie triggering on 1/30
+
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0004592-180124180018493-oozie-oozi-W -- issue of fileinput path
+
+_1536023004097_16852
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0005177-180124180018493-oozie-oozi-W
+
+***********************************************************************************************************8
+oozie jobs -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -len 20000 -filter user=svchdphdo4ecfd
+
+oozie jobs -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -len 20000 -filter status=RUNNING 
+****************************************************************************************************************
+
+export HADOOP_CLASSPATH=/data/home/zh722e/datafix/workflow/lib/*
+
+1516845389706_6761
+
+hadoop job -logs job_1536023004097_16852 attempt_1536023004097_16852_m_000000_0 > 11Sep_01.txt
+
+0043450-180830103410177-oozie-oozi-W
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0043515-180830103410177-oozie-oozi-W
+
+/usr/hdp/current/phoenix-server/bin/sqlline.py hdo4240-2.ca.boeing.com
+
+ hadoop fs -copyFromLocal -f HelloWorldSSH/ /user/zh722e
+  hadoop fs -put -f HelloWorldSSH/ /user/zh722e
+
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
+
+job_1536614493053_6572 
+
+hadoop job -logs job_1536614493053_6572 attempt_1536614493053_6572_m_000000_0 > Sep_20_01.txt
+
+job_1536614493053_6578 
+job_1536614493053_6576 
+job_1536614493053_6574 
+
+hadoop job -logs job_1536614493053_6578 attempt_1536614493053_6578_m_000000_0 > Sep_20_02.txt
+hadoop job -logs job_1536614493053_6576 attempt_1536614493053_6576_m_000000_0 > Sep_20_03.txt
+hadoop job -logs job_1536614493053_6574 attempt_1536614493053_6574_m_000000_0 > Sep_20_04.txt
+
+
+oozie job  http://sandbox.hortonworks.com:11000/oozie -config coordinator.properties -run
+
+/usr/hdp/current/spark2-client/bin/spark-submit --class "com.poc.spark.Main" --master local ./SparkTutorial-1.0-SNAPSHOT.jar
+ 0000071-170913035131646-oozie-oozi-C
+ 
+watch oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -info 0000002-171009210231369-oozie-oozi-W
+curl "http://sandbox.hortonworks.com:11000/oozie/v1/job/0000028-170913035131646-oozie-oozi-C?show=info&len=0&offset=0"
+
+oozie jobs -oozie http://sandbox.hortonworks.com:11000/oozie -localtime -len 2 -filter status=RUNNING
+
+oozie jobs -oozie http://mho101-8.ca.boeing.com:11000/oozie -kill -filter user=svchdpdevecfd -filter status=SUSPENDED
+
+oozie jobs -oozie http://sandbox.hortonworks.com:11000/oozie -jobtype coordinator
+
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -kill  0000083-170913035131646-oozie-oozi-C
+
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -log 0000011-170913035131646-oozie-oozi-W
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -kill  0000000-170913035131646-oozie-oozi-W
+oozie job -oozie http://localhost:8080/oozie -kill 0000000-170913035131646-oozie-oozi-W
+hadoop fs -expunge
+hdfs dfs -count -q -v -h -t /user/zh722e
+job_1507626530891_0011
+hadoop job -logs job_1507626530891_0011 attempt_1507626530891_0011_m_000000_0 > Oct_16_02.txt
+
+ http://sandbox.hortonworks.com:11000/oozie/v1/job/job_1505426763715_0004?show=info&timezone=GMT
+
+hadoop job -logs job_1503080060171_7278 attempt_1503080060171_7278_m_000000_0 >> ~/joblogs/22Sep_003.txt
+***********************************************************************************************
+oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -config job.properties -run
+0000001-170709013418433-oozie-oozi-W
+watch oozie job -oozie http://sandbox.hortonworks.com:11000/oozie -info 0000001-170709013418433-oozie-oozi-W
+-------------------------------------------------------------------
+Yarn commands
+yarn application -list -appTypes running
+yarn application -list -->Viewing yarn applications
+yarn top -->to quickly see the cluster usage at a time and provides the summanry information of the submitted, running and completed jobs
+yarn node -all -list --> Lists all the cluster nodes
+yarn queue -status default --> Check the status of the job queue
+yarn rmadmin -refreshNodes --> Yarn administrative command

@@ -25,7 +25,7 @@ public class HDFSTest {
 	      //3. Get the HDFS instance
 	      FileSystem hdfs = FileSystem.get(new URI("hdfs://127.0.0.1:8020"), configuration);
 	      //4. Open a OutputStream to write the data, this can be obtained from the FileSytem
-	      OutputStream outputStream = hdfs.create(new Path("hdfs://127.0.0.1:8020/user/root/test_hdfs/Hadoop_File.txt"),
+	      OutputStream outputStream = hdfs.create(new Path("hdfs://127.0.0.1:8020/user/root/shelly/Hadoop_File.txt"),
 	      new Progressable() {  
 	              public void progress() {
 	         System.out.println("....");
@@ -34,6 +34,7 @@ public class HDFSTest {
 	      try
 	      {
 	        IOUtils.copyBytes(inputStream, outputStream, 4096, false); 
+	        System.out.println("Copy is done...");
 	      }
 	      catch (Exception e) {
 			e.printStackTrace();

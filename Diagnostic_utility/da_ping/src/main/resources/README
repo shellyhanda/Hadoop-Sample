@@ -19,4 +19,4 @@ To run this program,
 	java -jar da_ping.jar phoenix --spring.config.location=override_HDO4.properties
 	
 
-
+ hadoop jar 
