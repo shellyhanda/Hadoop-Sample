@@ -1,0 +1,51 @@
+******KNOX*******************
+Keep in mind that the gateway uses a plugin model for supporting Hadoop services. Check back with the Apache Knox site for the latest news on plugin availability. You can also create your own custom plugin to extend the capabilities of the gateway.
+
+--<<WEBHDFS>>REST API access to HDFS in a Hadoop cluster is provided by WebHDFS. 
+--<<WebHCat (also called Templeton)>> is a related but separate service from HiveServer2. As such it is installed and configured independently. 
+--<<Oozie>> is a Hadoop component that provides complex job workflows to be submitted and managed. 
+--<<HBase>> provides an optional REST API (previously called Stargate).
+--<<YARN>> Knox provides gateway functionality for the REST APIs of the ResourceManager. The ResourceManager REST APIs allow the user to get information about the cluster - status on the cluster, metrics on the cluster, scheduler information, information about nodes in the cluster, and information about applications on the cluster. Also as of Hadoop version 2.5.0, the user can submit a new application as well as kill it (or get state) using the ‘Writable’ APIs.
+---<<STORM>>Storm is a distributed realtime computation system. Storm exposes REST APIs for UI functionality that can be used for retrieving metrics data and configuration information as well as management operations such as starting or stopping topologies.
+
+***************************************************************************************
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H Content-Type:application/xml -T hdfs:///dev/ecfd/knox-oozie-shell-action/workflow.xml -X POST 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/jobs?action=start'
+
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/job/0057333-181210170910184-oozie-oozi-W'
+
+-----------------------
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/dev/ecfd/knox-oozie-shell-action/workflow.xml?op=CREATE'
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X PUT 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/data/v1/webhdfs/v1/dev/ecfd/knox-oozie-shell-action/workflow.xml?_=AAAACAAAABAAAAEwPIevnLV4lRF1gefozJpmVvVrmgN6Nb_8C29vGROUJ35wxgFApfE44obTuIw5DqvT45sjH9vHuBFquWKnT00TY5wNDaNP8RZchnLrccoR_ahvr9FrVIoxbBypnvOqEAXqtIB5bodVAeCj-ss1pkCEnq3cUuXpjpf_mpwFc-hTjs95-kf2YQgP9a3BdQuvBOGD1Yv7H22-SmFi79PWwJWbf0oiYTAbHhCufok7YFDOG97INrkKeH6l-WsfLRNkQqPCkZq0xgSEdSmuv774FxQrHbC0jv8qJ5vg8Do4pCXRmGjbrJ4qAZUJRL75_An_lJbF11UOZUe0MsHJ5KTnQbGgZGARdtVMRJclwerY5kPpt-vqedViwDhA5U4YmAA8473rjqT5LNGS93NJsMEbngLtF5bvrR-9DDyC-jjaA276t3knw5gTvisXNw'
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H Content-Type:application/xml -T workflow.xml -X POST 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/jobs?action=start'
+
+curl -k https://hdo4241-23.ca.boeing.com:11443/oozie/v1/admin/status
+
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H "Content-Type:application/xml" -d @knox.xml -X POST 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/jobs?action=start'
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X POST -H "Content-Type: application/xml" -d @config-new.xml  'https://ec2-52-36-200-220.us-west-2.compute.amazonaws.com:8443/gateway/default/oozie/v1/jobs?action=start' 
+
+
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/job/0057738-181210170912155-oozie-oozi-W'
+
+http://da-dev.web.boeing.com:8090/web/api/knox/hdpemailaction/job_1542051296550_16120
+
+hadoop job -logs job_1542783151658_4395 attempt_1542783151658_4395_m_000000_0 >> log
+
+*******************************************HBase********************************************
+
+curl -ik -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H "Accept:  application/json" -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/hbase/version'
+
+curl -ik -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H "Accept:  text/xml" -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/hbase/version/cluster'
+
+curl -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -i -k https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/admin/api/v1/version
+
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/templeton/v1/status'
+
+ 
+ 

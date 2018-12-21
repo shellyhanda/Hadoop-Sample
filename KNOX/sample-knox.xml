@@ -1,0 +1,210 @@
+<configuration>
+
+<!-- Properties for workflow actions -->
+
+        <property>
+        <name>subFolderPath</name>
+        <value>user/hbaseuser/dev/aetpopt</value>
+    </property>
+
+    <property>
+        <name>nameNode</name>
+       <value>hdfs://ip-172-31-34-234.us-west-2.compute.internal:8020</value>
+    </property>
+
+    <property>
+        <name>jobTracker</name>
+        <value>ip-172-31-44-101.us-west-2.compute.internal:8050</value>
+    </property>
+
+    <property>
+        <name>oozieurl</name>
+        <value>http://ip-172-31-44-101.us-west-2.compute.internal:11000/oozie</value>
+    </property>
+
+        <property>
+        <name>hdfsuri</name>
+        <value>hdfs://ip-172-31-34-234.us-west-2.compute.internal:8020</value>
+    </property>
+
+        <property>
+        <name>kerberos.login.principle.name</name>
+        <value>hbaseuser@HCL.COM</value>
+    </property>
+
+        <property>
+        <name>kerberos.login.principle.keytab</name>
+        <value>/home/hbaseuser/hbaseuser.keytab</value>
+    </property>
+
+        <property>
+        <name>user.name</name>
+        <value>hbaseuser</value>
+    </property>
+
+        <property>
+        <name>oozie.proxysubmission</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>queueName</name>
+        <value>default</value>
+    </property>
+
+        <property>
+        <name>oozie.validate.ForkJoin</name>
+        <value>false</value>
+    </property>
+
+        <property>
+        <name>oozie.wf.validate.ForkJoin</name>
+        <value>false</value>
+    </property>
+
+        <property>
+        <name>oozie.use.system.libpath</name>
+        <value>false</value>
+    </property>
+
+        <property>
+        <name>oozie.libpath</name>
+        <value>/user/hbaseuser/dev/aetpopt/aetpdatasqoop/workflow/lib</value>
+    </property>
+
+        <property>
+        <name>inputeventstartinstance</name>
+        <value>${coord:current(0)}</value>
+    </property>
+
+    <property>
+        <name>inputeventendinstance</name>
+        <value>${coord:current(0)}</value>
+    </property>
+
+        <property>
+        <name>datasetfrequency</name>
+        <value>1</value>
+    </property>
+
+    <property>
+        <name>datasetinitialinstance</name>
+        <value>2016-03-10T04:18Z</value>
+    </property>
+
+    <property>
+        <name>jobStart</name>
+        <value>2016-03-10T04:18Z</value>
+    </property>
+
+    <property>
+        <name>jobEnd</name>
+        <value>2016-03-10T05:18Z</value>
+    </property>
+
+    <property>
+        <name>kickOffTime</name>
+        <value>2016-03-10T04:18Z</value>
+    </property>
+
+    <property>
+        <name>datasettimezone</name>
+        <value>UTC</value>
+    </property>
+
+    <property>
+        <name>tzOffset</name>
+        <value>-8</value>
+    </property>
+
+    <property>
+        <name>emailToAddress</name>
+        <value>thangamani.s@hcl.com</value>
+    </property>
+
+        <property>
+        <name>oozie.wf.application.path</name>
+        <value>${nameNode}/${subFolderPath}/aetpdatasqoop/workflow/aetpdatasqoop-migration.xml</value>
+    </property>
+
+         <property>
+        <name>aetpdatasqoopJobproperties</name>
+        <value>/${subFolderPath}/aetpdatasqoop/config/aetpdatasqoop-job.properties</value>
+    </property>
+
+   <property>
+        <name>SFTPCredentialsProperties</name>
+        <value>/${subFolderPath}/input/config/SFTPCredentials.properties</value>
+    </property>
+
+        <property>
+        <name>connectionUrl</name>
+        <value>jdbc:sqlserver://ecfdda.c2abun3migxy.us-west-2.rds.amazonaws.com:1433;databaseName=aetp</value>
+    </property>
+
+        <property>
+        <name>userName</name>
+        <value>ecfduser</value>
+    </property>
+
+        <property>
+        <name>conversionErrorSplit</name>
+        <value>500</value>
+    </property>
+
+        <property>
+        <name>environmentName</name>
+        <value>AWS</value>
+    </property>
+
+        <property>
+        <name>auditStartFlag</name>
+        <value>1</value>
+    </property>
+
+        <property>
+        <name>auditSuccessFlag</name>
+        <value>2</value>
+    </property>
+
+        <property>
+        <name>auditEndFlag</name>
+        <value>3</value>
+    </property>
+
+        <property>
+        <name>auditPartialSuccesFlag</name>
+        <value>4</value>
+    </property>
+
+        <property>
+        <name>statusupdateurl</name>
+        <value>http://54.69.85.250:8080/dev_aetpopt/api/sqoop/testconditions</value>
+    </property>
+
+        <property>
+        <name>auditstatusupdateurl</name>
+        <value>http://54.69.85.250:8080/dev_aetpopt/api/sqoop/audits</value>
+    </property>
+
+        <property>
+        <name>jobstatusurl</name>
+        <value>http://54.69.85.250:8080/dev_aetpopt/api/sqoop/jobs</value>
+    </property>
+
+        <property>
+        <name>consolidatedstatusurl</name>
+        <value>http://54.69.85.250:8080/dev_aetpopt/api/sqoop/tasks</value>
+    </property>
+
+        <property>
+        <name>programs</name>
+        <value>'777-9'</value>
+    </property>
+
+        <property>
+        <name>triggeredBy</name>
+        <value>0</value>
+    </property>
+
+</configuration>
