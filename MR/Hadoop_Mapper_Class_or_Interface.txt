@@ -1,0 +1,5 @@
+I am a bit confused about the basic Mapper structure in Hadoop. On the web, many example implementations use Mapper as a class and thus their classes extend Mapper. As far as I have seen, which is Hadoop 19, Mapper is an interface. What happened?
+
+In the old API, Mappers implemented an interface as you might expect.
+When the big overhaul came around, they decided to change it to a fully fledged class so that it can act as the often needed Identity Mapper if used as is, or extended for your own implementations.
+It's just a matter of whether you're using the old or new API for your project, you shouldn't mix - org.apache.hadoop.mapred is the old API, org.apache.hadoop.mapreduce is the new.

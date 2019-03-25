@@ -1,0 +1,11 @@
+from sangili to Everyone:
+kinit -kt /etc/security/keytabs/svchdptstecfd.service.HD05.keytab svchdptstecfd/hdo5250-2.ca.boeing.com@NOS.BOEING.COM 
+
+Final command that worked on qa-box and HDO5 box
+from Josef Sikora to Everyone:
+kinit -kt /etc/security/keytabs/svchdphdo5ecfd.service.keytab svchdphdo5ecfd/hdo5252-31.ca.boeing.com@NOS.BOEING.COM
+
+Test Knox
+curl -vvv -k -iv -u svchdptstecfd -X GET 'https://hdedge.ca.boeing.com:8442/gateway/BOEINGHDO1/webhdfs/v1/?op=LISTSTATUS'
+from Josef Sikora to Everyone:-- working command
+curl -vvv -k -iv -u svchdphdo5ecfd -X GET 'https://137.136.234.43:8442/gateway/BOEINGHDO5/webhdfs/v1/?op=LISTSTATUS'

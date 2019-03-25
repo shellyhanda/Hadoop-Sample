@@ -1,0 +1,37 @@
+hdfs getconf -namenodes
+/usr/hdp/2.5.0.0-1245/hadoop/conf --or-- /ect/hadoop/conf
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+curl 'http://sandbox.hortonworks.com:50070/jmx?qry=Hadoop:service=NameNode,name=NameNodeStatus'
+
+ o/p-->[hdfs@sandbox my_oozie_work]$ curl 'http://sandbox.hortonworks.com:50070/jmx?qry=Hadoop:service=NameNode,name=NameNodeStatus'
+{
+  "beans" : [ {
+    "name" : "Hadoop:service=NameNode,name=NameNodeStatus",
+    "modelerType" : "org.apache.hadoop.hdfs.server.namenode.NameNode",
+    "State" : "active",
+    "NNRole" : "NameNode",
+    "HostAndPort" : "sandbox.hortonworks.com:8020",
+    "SecurityEnabled" : false,
+    "LastHATransitionTime" : 0,
+    "BytesWithFutureGenerationStamps" : 0
+  } ]
+}
+
+# "State" is "initializing", "active", "standby" or "stopping".
+# "LastHATransitionTime" is the last time of the last flip from standby to active (or vice versa)
+
+curl -i http://sandbox.hortonworks.com:50070/jmx
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+To check Jobtracker address go to /usr/hdp/2.5.0.0-1245/hadoop/conf/yarn-site.xml or /ect/hadoop/conf/yarn-site.xml and search for yarn.resourcemanager.address property
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cluster details at http://localhost:8088/cluster/nodelabels in browser
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+"key" : "hadoop.log.dir",
+      "value" : "/var/log/hadoop/hdfs"
+	  
+	  
+http://localhost:19888/jobhistory
+http://localhost:8088/cluster/apps/FINISHED
+http://sandbox.hortonworks.com:8088/ws/v1/cluster/info
+http://sandbox.hortonworks.com:8088/ws/v1/cluster/scheduler

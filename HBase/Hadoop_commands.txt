@@ -1,0 +1,71 @@
+http://localhost:50070/dfshealth.html /http://localhost:50070/explorer.html  --> HDFS health check
+ssh root@127.0.0.1 -p2222 --> SSH to HDP
+/usr/hdp/current
+ scp -P 2222 bulk_print_check_command.txt root@127.0.0.1:/root
+  scp -P 2222 hbase-connection.jar root@127.0.0.1:/root/shelly
+  scp -P 2222 oozie-4.3.0.tar.gz root@127.0.0.1:/home/oozie
+  scp -P 2222 sample.txt root@127.0.0.1:/root/shelly/myHive
+ scp -P 2222 hbase-connection.jar root@ec2-34-212-192-200.us-west-2.compute.amazonaws.com:/root/shelly
+ 
+ scp -P 2222 hbase-connection.jar root@127.0.0.1:/root/poc
+ scp -P 2222 OozieJavaExample.zip root@127.0.0.1:/root/shelly/myoozie/OozieJavaExample
+ scp -P 2222 hbase-knox-wrapper-1.0-SNAPSHOT.jar root@127.0.1:/root/shelly/myknox
+scp zh722e@A5567707:/C/MyLearning/My_Own_space/OOzie/Final 
+ C:\MyLearning\Eclipse_Workspace\
+ From HDP to Local
+ scp -P 2222 root@127.0.0.1:/usr/hdp/current/kafka-broker/examples/lib/kafka-examples-0.10.1.2.6.1.0-129.jar .
+ 
+ scp root@127.0.0.1:/usr/hdp/2.6.1.0-129/hive/lib/hive-jdbc.jar zh722e@144.114.124.255:C:\MyWork\2018_work\JDBC-Client
+ 
+jdbc:hive2://127.0.0.1:10000/shellytest
+
+/root/shelly_work
+scp -P 2222 OozieJavaExample.zip root@127.0.0.1:/root/shelly/myoozie/OozieJavaExample
+ scp -P 2222 ingestion.jar root@127.0.0.1:/root/shelly/HbaseRest
+ hdfs://sandbox.hortonworks.com:8020/user/root/src/main/resources/shakespeare.txt
+ 
+ hadoop fs -ls hdfs://sandbox.hortonworks.com/user
+
+*****************************************************************************************************************************
+----------Ambari-----------------------------------------------------------------
+sudo service ambari-server restart
+sudo service ambari-agent restart
+sudo /etc/init.d/postgresql restart
+
+
+*******************************************************************************************************************************
+---------HBase----------------------------
+
+Start services. From root, assuming that $HBASE_USER=hbase:
+su - hbase -c "/usr/hdp/current/hbase-master/bin/hbase-daemon.sh start master; sleep 25"
+su - hbase -c "/usr/hdp/current/hbase-regionserver/bin/hbase-daemon.sh start regionserver"
+
+Check processes.
+ps -ef | grep -i hmaster
+ps -ef | grep -i hregion
+
+/etc/hbase/conf/hbase-site.xml -- do nothing
+
+http://localhost:16010/master-status
+tutorial link -->http://hbase.apache.org/book.html#getting_started
+curl -vi -X GET -H "Accept: text/xml" "http://sandbox.hortonworks.com:8000/version/cluster"
+****************************************************************************************************************************
+------Zookeeper---------------------------------------------
+/etc/zookeeper/conf
+
+jps -l | grep zookeeper --it will return  org.apache.zookeeper.server.quorum.QuorumPeerMain
+
+echo stat | nc localhost 2181 | grep Mode -- commmand will retuen the mode od zookeeper running (standalone/embeded)
+
+To check if Zookeeper is accessible. One method is to simply telnet to the proper port and execute the stats command.
+root@host:~# telnet localhost 2181
+Trying 127.0.0.1...
+Connected to myhost.
+Escape character is '^]'.
+stats
+
+**********************************************************************************************************************************
+
+
+
+************************************************************************************************************************************

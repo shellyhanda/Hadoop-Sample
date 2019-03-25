@@ -1,0 +1,19 @@
+
+hadoop fs -put -f sample.txt /dev/ecfd/shelly/input_dir/
+hadoop jar econsumption.jar com.shelly.poc.mr.ProcessUnits /dev/ecfd/shelly/input_dir /dev/ecfd/shelly/output_dir3
+
+yarn logs -applicationId job_1545343822780_11072
+
+hadoop job -logs job_1545343822780_11085 attempt_1545343822780_11085_m_000000_0 >> ~/joblogs/28Dec_2.txt
+
+*************************************************
+
+svchdphdo4ecfd@hdo4241-23:~/shelly_work/mr> hdfs dfs -mkdir /dev/ecfd/shelly/flight
+svchdphdo4ecfd@hdo4241-23:~/shelly_work/mr> hdfs dfs -mkdir /dev/ecfd/shelly/flight/input_dir/
+svchdphdo4ecfd@hdo4241-23:~/shelly_work/mr> hdfs dfs -put 2008.csv /dev/ecfd/shelly/flight/input_dir/
+hadoop jar FlightsByCarrier.jar /dev/ecfd/shelly/flight/input_dir /dev/ecfd/shelly/flight/output_dir
+job_1545343822780_11197
+
+hadoop job -logs job_1545343822780_11262 attempt_1545343822780_11262_m_000000_0 >> ~/joblogs/28Dec_8.txt
+
+mapred job -logs job_1545343822780_11262

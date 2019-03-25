@@ -1,0 +1,8 @@
+Row key determines how records for a given table are scattered throughout various
+regions of the HBase cluster. In HBase, all the row keys are sorted and each region stores
+a range of these sorted row keys. Each region is pinned to a region server (i.e. a node in
+the cluster).
+A well-known anti-pattern is to use timestamp for row keys because it would make most
+of the put and get requests to be focussed on a single region and hence a single region
+server which somewhat defeats the purpose of having a distributed system. It’s best to
+choose row keys so the load on the cluster is fairly distributed.

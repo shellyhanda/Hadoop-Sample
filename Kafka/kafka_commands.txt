@@ -4,11 +4,18 @@ Goto /usr/hdp/current/kafka-broker/bin
 --Create a Topic
 ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Shelly
 --Producer
-./kafka-console-producer.sh --broker-list sandbox.hortonworks.com:6667 --topic Shelly
+./kafka-console-producer.sh --broker-list sandbox-hdp.hortonworks.com:6667 --topic Shelly
 --consumer
-./kafka-console-consumer.sh --bootstrap-server sandbox.hortonworks.com:6667 --topic Shelly --zookeeper localhost:2181 --from-beginning
+./kafka-console-consumer.sh --bootstrap-server sandbox-hdp.hortonworks.com:6667 --topic Shelly --from-beginning
+-- describe the topic to see how partitions are distributed 
+./kafka-topics.sh --describe --zookeeper localhost:2181 --topic Shelly
 ****************************
 
+#./kafka-console-producer.sh --broker-list sandbox-hdp.hortonworks.com:9091 --topic Shelly
+
+#./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Shelly --from-beginning
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
 
 ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic connect-test
 zookeeper-client

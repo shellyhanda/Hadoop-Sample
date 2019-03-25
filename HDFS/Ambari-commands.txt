@@ -1,0 +1,22 @@
+ambari-server status
+Using python  /usr/bin/python
+Ambari-server status
+Ambari Server not running. Stale PID File at: /var/run/ambari-server/ambari-server.pid
+
+----
+ambari-server start
+[root@sandbox run]# ambari-server start
+Using python  /usr/bin/python
+Starting ambari-server
+Ambari Server running with administrator privileges.
+Organizing resource files at /var/lib/ambari-server/resources...
+Ambari database consistency check started...
+No errors were found.
+Ambari database consistency check finished
+Server PID at: /var/run/ambari-server/ambari-server.pid
+Server out at: /var/log/ambari-server/ambari-server.out
+Server log at: /var/log/ambari-server/ambari-server.log
+Waiting for server start....................
+Ambari Server 'start' completed successfully.
+service postgresql start
+ambari-server start

@@ -73,7 +73,7 @@ watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0014544-
 
 0042619-180830103410177-oozie-oozi-W
 
-watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0057333-181210170910184-oozie-oozi-W
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0042619-180830103410177-oozie-oozi-W
 
 0073414-180927113010380-oozie-oozi-W
 
@@ -108,9 +108,9 @@ watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0043515-
 
 oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
 
-job_1544487375083_13601 
+job_1536614493053_6572 
 
-hadoop job -logs job_1544487375083_13601 attempt_1544487375083_13601_m_000000_0 > Dec_18_01.txt
+hadoop job -logs job_1536614493053_6572 attempt_1536614493053_6572_m_000000_0 > Sep_20_01.txt
 
 job_1536614493053_6578 
 job_1536614493053_6576 

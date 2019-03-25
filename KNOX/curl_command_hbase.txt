@@ -1,0 +1,71 @@
+curl -v -X PUT 'http://localhost:8080/ecfd_table/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"ecfd_table","ColumnSchema":[{"name":"prn"}]}'
+
+curl -v -X PUT 'http://localhost:8080/test1/false-row-key' -H "Accept: application/json" -H "Content-Type: application/json"  -d @soln-out.json 
+
+curl -v -X PUT 'http://localhost:8080/test/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"test","ColumnSchema":[{"name":"data"}]}' 
+
+curl -v -X PUT 'http://localhost:8080/ecfd-table/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"ecfd-table","ColumnSchema":[{"name":"prm"}]}' 
+
+------------------------------
+curl -v -X PUT 'http://localhost:8080/test1/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"test1","ColumnSchema":[{"name":"prn"}]}'
+
+
+curl -v -X GET 'http://sandbox.hortonworks.com:8080/ecfd-table/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"ecfd-table","ColumnSchema":[{"name":"prm"}]}'
+
+curl -vi -H "Content-Type: text/xml" -d '<Scanner batch="5" filter="{"type": "PageFilter","value": "10"} "/>' "http://localhost:8080/users1/scanner"
+curl -H "Accept: application/json" http://localhost:8080/users1/scanner/15041664247016654ef8b
+
+curl -vi -H 'Content-Type: text/xml' -d '<Scanner startRow="dXNlcjE=" stopRow="dXNlcjk=" batch="1024"       filter="{"type":"SingleColumnValueFilter","op":"EQUAL","family":"Y2ZJbmZv","qualifier":"dXNlcg==","ifMissing":true,"latestVersion":true,"comparator":{"type":"BinaryComparator","value":"dXNlcjA="}}"/>' "http://localhost:8080/users1/scanner"
+
+curl -vi -H 'Content-Type: text/xml' -d '<Scanner batch="1024"       filter="{"type":"SingleColumnValueFilter","op":"EQUAL","family":"Y2ZJbmZv","qualifier":"dXNlcg==","ifMissing":true,"latestVersion":true,"comparator":{"type":"BinaryComparator","value":"dXNlcjA="}}"/>' "http://localhost:8080/users1/scanner"
+
+curl -v -H "Content-Type:text/xml" -d@args.txt "http://localhost:8080/user1/scanner"
+
+curl -vi -H 'Content-Type: text/xml' -d '<Scanner startRow="dXNlcjE=" stopRow="dXNlcjk=" batch="1024"/>' "http://localhost:8080/users1/scanner"
+curl -H "Accept: application/json"   http://localhost:8080/users1/scanner/1504207303920437b1ef5
+curl -vi -H "Content-Type: text/xml" -d '<Scanner batch="1"/>' "http://localhost:8085/users1/scanner"
+----working
+curl -vi -H "Content-Type: text/xml" "http://localhost:8080/users1/user0"
+****************************************************************************************************
+curl -vi -X PUT -H "Accept: text/xml" -H "Content-Type:text/xml" -d @filter.txt "http://localhost:8080/users2/scanner"
+
+curl -H "Accept: application/json" "http://localhost:8080/users2/user9"
+curl -vi -X GET -H "Accept: text/xml" "http://localhost:8080/users2/scanner/1504289734735dea033b"
+curl -vi -X PUT -H "Accept: text/xml" -H "Content-Type: text/xml" -d '<Scanner batch="10"/>' "http://localhost:8080/users2/scanner"
+curl -vi -H "Content-Type: text/xml" -d '<Scanner batch="1"/>' "http://localhost:8080/users2/scanner"
+
+curl -vi -X PUT -H "Accept: text/xml" -H "Content-Type:text/xml" -d @filter.txt "http://localhost:8080/people/scanner"
+curl -H "Accept: application/json" http://localhost:8080/people/scanner/15042936581843b3ede45
+-----------------------------------------------
+*********************************************************************************
+Sandbox commands --Shelly
+curl -H "Accept: application/json" http://localhost:7777
+--get row data
+curl -v -X GET 'http://localhost:7777/people/doe-john-m-12345' -H "Accept: application/json"
+--Create table
+curl -v -X PUT 'http://localhost:7777/ecfd_table/schema' -H "Accept: application/json" -H "Content-Type: application/json" -d '{"@name":"ecfd_table","ColumnSchema":[{"name":"prm"}]}'
+
+curl -v -X PUT 'http://localhost:7777/ecfd_table/row1/prm:label' -H "Accept: application/json" -H "Content-Type: application/json" -d "{\"Row\":{\"@key\":\"$(encode 'row1')\",\"Cell\":{\"@column\":\"$(encode 'prm:label')\", \"$\":\"$(encode 'Some data...')\"}}}"
+
+curl -vi -H "Content-Type: text/xml" -d '<Scanner batch="1"/>' "http://localhost:7777/people/scanner"
+curl -H "Accept: application/json" "http://localhost:7777/people/scanner/1503656006206389b2bf"
+
+curl -vi -H 'Content-Type: text/xml' -d '<Scanner batch="1024"/>' "http://localhost:7777/people/scanner"
+curl -H "Accept: application/json"  'http://localhost:7777/people/scanner/150421938544551e035a5'
+
+curl -vi -H "Content-Type: text/xml" -d '<Scanner batch="5" filter="{"type": "PageFilter","value": "10"} "/>' "http://localhost:7777/people/scanner"
+curl -vi -X PUT -H "Accept: text/xml" -H "Content-Type: text/xml" -d '<Scanner batch="1"/>' "http://localhost:7777/people/scanner"
+
+curl -vi -X PUT -H "Accept: text/xml" -H "Content-Type:text/xml" -d @filter.txt "http://localhost:7777/people/scanner"
+
+curl -H "Accept: application/json"  http://localhost:7777/people/scanner/150422220740574548f5c
+
+curl -d @filter.txt http://localhost:8080/api/tables/people/scan
+
+
+**********************************************
+
+put 'people','doe-john-m-12345','contactinfo:email','john.m.doe@gmail.com'
+put 'people','doe-john-m-12345','personal:givenName','john'
+put 'people','doe-john-m-12345','personal:mi','M'
+put 'people','doe-john-m-12345','personal:surame','Doe'

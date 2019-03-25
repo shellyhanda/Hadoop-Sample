@@ -1,0 +1,4 @@
+
+curl -iku zh722e -X PUT -H "Accept: application/json" -H "Content-Type: application/json" -d '{"name":"ctd_nstest:api_tbl","ColumnSchema":[{"name":"cf1"}]}' https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/hbase/ctd_nstest:api_tbl/schema
+
+curl -iku zh722e -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/hbase/ecfd_dev:aetpopt_table/*' 

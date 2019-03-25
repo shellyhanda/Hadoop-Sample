@@ -1,0 +1,1 @@
+curl --negotiate -u svchdphdo4ecfd -H 'X-Requested-By:svchdphdo4ecfd' https://hdo4241-23.ca.boeing.com:8442/gateway/SPNEGOHDO4/avatica 

@@ -1,6 +1,82 @@
+ ########################################################################################################
+ Hadoop File System Commands
+ ########################################################################################################
+ Cat,chgrp,chmod,chown,copyFromLocal,copyToLocal,count,cp,du,expunge,get,getmerge,ls,lsr,mkdir,moveFromLocal,mv,put,rm,rmr,setrep,stat,tail,test,text,touchz.
+ ########################################################################################################
+ The DFSAdmin command set is used for administering an HDFS cluster. These are commands that are used only by an HDFS administrator.
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfsadmin -report
+Configured Capacity: 1342087422713856 (1.19 PB)
+Present Capacity: 1341394258231756 (1.19 PB)
+DFS Remaining: 1108124816238910 (1007.83 TB)
+DFS Used: 233269441992846 (212.16 TB)
+DFS Used%: 17.39%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+Missing blocks (with replication factor 1): 0
+
+-------------------------------------------------
+report: Access denied for user svchdphdo4ecfd. Superuser privilege is required
+
+############################################################################################################
  hdfs dfs -df -h
 Filesystem          Size     Used  Available  Use%
 hdfs://BOEINGHDO4  1.2 P  204.1 T   1016.5 T   17%
 
- hdfs dfs -du -h /user/svchdphdo4ecfd
- hadoop fs -expunge
+**--du-Displays the size of the specified file,or the sizes of the files & directories that are contained in a specific directory.If u specify -s option it displays an aggregate summary of the file sizes rather than individual file sizes.If u specify the -h option,formats the file sizes in a "human-readable" way.
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -du -h /dev/ecfd
+1.2 K  /dev/ecfd/knox-oozie-shell-action
+1.4 K  /dev/ecfd/python_poc
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -du /dev/ecfd
+1265  /dev/ecfd/knox-oozie-shell-action
+1432  /dev/ecfd/python_poc
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -du -s /dev/ecfd
+2697  /dev/ecfd
+
+**---expunge- Empties the trash.When u delete a file,it isn't removed immediately from HDFS,but is renamed to a file in the /trash directory.As long as the file remains there, ucan undelete it if u change ur mind, though only the latest copy of the deleted file can be restored.
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -expunge
+18/12/21 13:20:07 WARN hdfs.DFSClient: Cannot get all encrypted trash roots
+org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.security.AccessControlException): Access denied for user svchdphdo4ecfd. Superuser privilege is required
+        at org.apache.hadoop.hdfs.server.namenode.FSPermissionChecker.checkSuperuserPrivilege(FSPermissionChecker.java:123)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.checkSuperuserPrivilege(FSNamesystem.java:6386)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.listEncryptionZones(FSNamesystem.java:8696)
+
+**--counts the number of directories,files and bytes under the path that mathes the specified pattern-----------
+ svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -count /dev/ecfd/*
+           1            3               1265 /dev/ecfd/knox-oozie-shell-action
+           1            1               1432 /dev/ecfd/python_poc
+**--getmerge-contatenates the files in some hdfs location and writes the result to the specified local destination file.-----
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -getmerge -nl /dev/ecfd/file1.txt /data/home/svchdphdo4ecfd/file2.txt
+
+**--setrep-changes the replication factor for a specified file or directory.With -R,makes the change recursively by way of the directory structure.---
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -ls /dev/ecfd/file2.txt
+-rw-------   2 svchdphdo4ecfd hdp_dev_ecfd         21 2018-12-21 13:39 /dev/ecfd/file2.txt
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -setrep 3 /dev/ecfd/file2.txt
+Replication 3 set: /dev/ecfd/file2.txt
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -ls /dev/ecfd/file2.txt
+-rw-------   3 svchdphdo4ecfd hdp_dev_ecfd         21 2018-12-21 13:39 /dev/ecfd/file2.txt
+
+**--stat-Displays information about the specific path----
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -stat /dev/ecfd/file2.txt
+2018-12-21 21:39:38
+
+**--tail--Displays the last kilobyte of a specified file to stdout.As new lines are added to the file by another process,tail updates the display.--
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -tail /dev/ecfd/file2.txt
+file2 content end...
+
+**--test--Outputs the specified source file in text format.Valid input file formats are zip and TextRecord InputStream.
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -text  /dev/ecfd/file2.txt
+file2 content end...
+
+**-touchz-- Creates a new,empty file of size 0 in a specified path
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -touchz /dev/ecfd/touch.log
+svchdphdo4ecfd@hdo4241-23:~> hdfs dfs -ls /dev/ecfd/
+Found 5 items
+-rw-------   3 svchdphdo4ecfd hdp_dev_ecfd         20 2018-12-21 13:38 /dev/ecfd/file1.txt
+-rw-------   3 svchdphdo4ecfd hdp_dev_ecfd         21 2018-12-21 13:39 /dev/ecfd/file2.txt
+drwx------   - svchdphdo4ecfd hdp_dev_ecfd          0 2018-12-18 12:34 /dev/ecfd/knox-oozie-shell-action
+drwx------   - svchdphdo4ecfd hdp_dev_ecfd          0 2018-12-13 14:24 /dev/ecfd/python_poc
+-rw-------   3 svchdphdo4ecfd hdp_dev_ecfd          0 2018-12-21 14:32 /dev/ecfd/touch.log
+
+
+

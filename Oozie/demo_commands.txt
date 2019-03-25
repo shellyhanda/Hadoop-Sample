@@ -1,0 +1,116 @@
+
+count 'ecfd_pre:ecfd_table',INTERVAL=>1
+count 'ecfd_tst:ecfd_table',INTERVAL=>1
+count 'ecfd_dev:ecfd_table',INTERVAL=>1
+get 'ecfd_table','RK'
+count 'ecfd_tst:solution_table',INTERVAL=>1
+get 'ecfd_tst:ecfd_table','1501267624063-20170728'
+truncate 'ecfd_tst:solution_table'
+scan 'ecfd_tst:solution_table',{COLUMNS => 'prm:loc'}
+truncate 'ecfd_tst:ecfd_table'
+count 'ecfd_tst:ecfd_table',INTERVAL=>1
+0000943-170428160213354-oozie-oozi-B
+
+watch oozie job -oozie http://mho201-3.ca.boeing.com:11000/oozie -info 0000945-170428160213354-oozie-oozi-
+
+
+oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -config /data/home/svchdpdevecfd/cbaTest/ecfdda/config/ecfdda-testjob-processing.properties -run -Doutputpath=/user/svchdpdevecfd/dev -Dfilepath=/data/home/svchdpdevecfd/cbaTest/SampleData.json -Dtablename=ecfd_table
+
+ 0001457-170818111105529-oozie-oozi-B
+watch oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -info 0001386-170818111105529-oozie-oozi-W
+
+oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -log 0001511-170428160213354-oozie-oozi-B
+job_1503080060171_13584KIL
+hadoop job -logs job_1503080060171_13584 attempt_1503080060171_13584_m_000000_0 > 23Oct_001.1.txt
+
+oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -kill  0001386-170818111105529-oozie-oozi-W 
+oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie -localtime -len 2 -filter status=RUNNING
+
+oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie  -jobtype bundle -len 20000 -filter status=RUNNING
+
+oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie -jobtype coordinator -filter status=RUNNING
+
+
+
+oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie -localtime -len 2 -filter status=RUNNING
+
+count 'solution_table' , INTERVAL =>1
+
+get 'solution_table' , '0000023-180-20170210'
+
+USER_RETRYjob_1503080060171_13595FAILED/KILLEDJA018 
+
+hadoop job -logs job_1503080060171_13595 attempt_1503080060171_13595_m_000000_0 >> ~/joblogs/19Oct_2.txt
+
+job_1528762634898_82476
+
+hadoop job -logs job_1528762634898_82476 attempt_1528762634898_82476_m_000000_0 > 17July2018_1.txt
+job_1482350278198_0191
+
+oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -log 0000026-161212120136531-oozie-oozi-B
+
+
+oozie job -oozie http://hdo5250-2.ca.boeing.com:11000/oozie -config solution-job-processing.properties -run -Dsubdir=FromHPC/2345 -Dhpcplanid=2345
+
+watch oozie job -oozie http://mho201-3.ca.boeing.com:11000/oozie -info 0000074-170302084703110-oozie-oozi-W
+
+oozie job -oozie http://mho201-3.ca.boeing.com:11000/oozie -log 0000006-170302084703110-oozie-oozi-B
+
+
+/data/home/svchdptstecfd/boeing/sw/flume/ecfd/data/FromHPC
+
+curl -i -k -u bob:bob-password -X GET 'https://localhost:8443/gateway/sample/namenode/api/v1/tmp/test/input?op=LISTSTATUS'
+
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"subDir":"","planId":""}' http://da-qa.web.boeing.com:8081/rest/api/knox/copyToDA
+
+from Sankar R to Everyone:
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"subDir":"FromHPC/2866","planId":"2866"}' http://da-qa.web.boeing.com:8081/rest/api/knox/copyToDA
+
+
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"filesToCopy":["/data/home/svchdptstecfd/boeing/sw/flume/ecfd/data/FromHPC/2866/ptmp__og510a__ecfd__P2-20__SFRL0__soln__m0.800h40000__cl0.500__solution.json"],"targetPath":"/data/home/svchdptstecfd/boeing/sw/flume/ecfd/data/FromHPC/2866/result", "serverName":"", "hpcUserName":""}' http://da-qa.web.boeing.com:81/rest/api/knox/copyFromDA
+
+http://da-qa.web.boeing.com:8081/rest/api/knox/liststatus file username 
+
+/data/home/svchdptstecfd/deployment/12022016/config -->.prpertie and xml push
+hadoop fs -put -f <filename> /user/svchdptstecfd/input/config
+1
+2
+3 take row keys
+4 oozie shell command --> check the files in mount point
+oozie job -oozie http://ec2-52-37-201-37.us-west-2.compute.amazonaws.com:11000/oozie -config /home/hbaseuser/solution/config/solution-reversecopy-processing.properties -run -Drowkeys=0000066-9479-20170321:0000073-4336-20170321~220320171
+
+*************************************************************************************************************************************************************************
+
+Test Knox access:
+sudo -u jboss curl -vvv -k -iv -u svchdpdevecfd -X GET 'https://hdedge.ca.boeing.com:8442/gateway/BOEINGHDO1/webhdfs/v1/?op=LISTSTATUS'
+
+sudo -u jboss curl -vvv -k -iv -u svchdptstecfd -X GET 'https://hdedge.ca.boeing.com:8442/gateway/mho201-2.ca.boeing.com:8020/webhdfs/v1/?op=LISTSTATUS'
+mho201-2.ca.boeing.com:8020
+
+sudo -u jboss curl -vvv -k -iv -u svchdptstecfd -X GET 'https://hdedge.ca.boeing.com:8442/gateway/BOEINGHDO2/webhdfs/v1/?op=LISTSTATUS'
+
+Test oozie access:
+sudo -u jboss curl -i -k -u svchdpdevecfd -X POST -H "Content-Type: application/xml" -d @/home/jboss/oozie-solutionjob-config.xml 'https://hdedge.ca.boeing.com:8442/gateway/BOEINGHDO1/oozie/v1/jobs?action=start'
+
+Oozie Commands:
+Job Submission:
+oozie job -oozie http://ec2-52-37-201-37.us-west-2.compute.amazonaws.com:11000/oozie -config /home/hbaseuser/solution/config/solution-job-processing.properties -run
+
+Job status:
+watch oozie job -oozie http://ec2-52-37-201-37.us-west-2.compute.amazonaws.com:11000/oozie -info 0000095-160617101009389-oozie-oozi-W
+
+Oozie Logs:
+oozie job -oozie http://ec2-52-37-201-37.us-west-2.compute.amazonaws.com:11000/oozie -log 0000001-130712212133144-oozie-oozi-W
+
+curl -i -k -u svchdptstecfd -X POST -H "Content-Type: application/xml" -d @solution-processing-onward-copy-knox-hdo2.xml  'https://hdo202-18.ca.boeing.com:8442/gateway/BOEINGHDO2/oozie/v1/jobs?action=start'
+
+
+B -1
+C -2
+W -3
+
+--------------------------------------------------------
+
+/usr/hdp/current/phoenix-server/bin/sqlline.py  mho201-2.ca.boeing.com
+
+

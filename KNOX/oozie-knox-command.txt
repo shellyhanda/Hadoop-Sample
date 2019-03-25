@@ -24,16 +24,14 @@ curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H Content-Type:
 
 curl -k https://hdo4241-23.ca.boeing.com:11443/oozie/v1/admin/status
 
-
 curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H "Content-Type:application/xml" -d @knox.xml -X POST 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/jobs?action=start'
 
 curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X POST -H "Content-Type: application/xml" -d @config-new.xml  'https://ec2-52-36-200-220.us-west-2.compute.amazonaws.com:8443/gateway/default/oozie/v1/jobs?action=start' 
 
 
+curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/job/0060601-181220141954132-oozie-oozi-W'
 
-curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/oozie/v1/job/0057738-181210170912155-oozie-oozi-W'
-
-http://da-dev.web.boeing.com:8090/web/api/knox/hdpemailaction/job_1542051296550_16120
+http://da-dev.web.boeing.com:8090/web/api/knox/hdpemailaction/job_1545343822780_28149
 
 hadoop job -logs job_1542783151658_4395 attempt_1542783151658_4395_m_000000_0 >> log
 
@@ -48,4 +46,15 @@ curl -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -i -k https://hdo4241-
 curl -i -k -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/templeton/v1/status'
 
  
+ *******************************************Webhdfs********************************************
+ curl -ik -u 'svchdphdo4ecfd:2Gkv42!66Nn!!p5x#!#Gk4Bt!KHbp#6!' -H "Accept:  application/json" -X GET 'https://hdo4241-23.ca.boeing.com:8442/gateway/BOEINGHDO4/webhdfs/v1/dev/ecfd?op=LISTSTATUS'
+ 
+{"FileStatuses":{"FileStatus":[
+{"accessTime":1545428335470,"blockSize":134217728,"childrenNum":0,"fileId":61213864,"group":"hdp_dev_ecfd","length":20,"modificationTime":1545428335641,"owner":"svchdphdo4ecfd","pathSuffix":"file1.txt","permission":"600","replication":3,"storagePolicy":0,"type":"FILE"},
+{"accessTime":1545428378070,"blockSize":134217728,"childrenNum":0,"fileId":61213873,"group":"hdp_dev_ecfd","length":21,"modificationTime":1545428378233,"owner":"svchdphdo4ecfd","pathSuffix":"file2.txt","permission":"600","replication":3,"storagePolicy":0,"type":"FILE"},
+{"accessTime":0,"blockSize":0,"childrenNum":3,"fileId":60019927,"group":"hdp_dev_ecfd","length":0,"modificationTime":1545165252072,"owner":"svchdphdo4ecfd","pathSuffix":"knox-oozie-shell-action","permission":"700","replication":0,"storagePolicy":0,"type":"DIRECTORY"},
+{"accessTime":0,"blockSize":0,"childrenNum":1,"fileId":57416167,"group":"hdp_dev_ecfd","length":0,"modificationTime":1544739841927,"owner":"svchdphdo4ecfd","pathSuffix":"python_poc","permission":"700","replication":0,"storagePolicy":0,"type":"DIRECTORY"},
+{"accessTime":0,"blockSize":0,"childrenNum":7,"fileId":61756249,"group":"hdp_dev_ecfd","length":0,"modificationTime":1546068786526,"owner":"svchdphdo4ecfd","pathSuffix":"shelly","permission":"700","replication":0,"storagePolicy":0,"type":"DIRECTORY"},
+{"accessTime":0,"blockSize":0,"childrenNum":2,"fileId":62775274,"group":"hdp_dev_ecfd","length":0,"modificationTime":1547073583217,"owner":"svchdphdo4ecfd","pathSuffix":"spark_poc","permission":"700","replication":0,"storagePolicy":0,"type":"DIRECTORY"},
+{"accessTime":1545431579977,"blockSize":134217728,"childrenNum":0,"fileId":61216737,"group":"hdp_dev_ecfd","length":0,"modificationTime":1545431579995,"owner":"svchdphdo4ecfd","pathSuffix":"touch.log","permission":"600","replication":3,"storagePolicy":0,"type":"FILE"}]}}
  
