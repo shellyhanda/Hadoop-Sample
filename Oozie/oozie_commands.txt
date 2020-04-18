@@ -69,7 +69,7 @@ oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config ecfdda-job-p
 
 0014542-180508155309311-oozie-oozi-B
 0014543-180508155309311-oozie-oozi-C
-watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0014544-180508155309311-oozie-oozi-W -- For single file DA movement completyed successfully 11:30 1/30
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0118763-190715190836202-oozie-oozi-W -- For single file DA movement completyed successfully 11:30 1/30
 
 0042619-180830103410177-oozie-oozi-W
 
@@ -81,10 +81,14 @@ watch oozie job -oozie http://hdo5251-31.ca.boeing.com:11000/oozie -info 0073536
 
 for 50 file oozie triggering on 1/30
 
-watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0004592-180124180018493-oozie-oozi-W -- issue of fileinput path
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0280932-191024072130742-oozie-oozi-W -- issue of fileinput path
 
-_1536023004097_16852
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0316048-191024072143512-oozie-oozi-W
+
+job_1576854604623_131212
 watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0005177-180124180018493-oozie-oozi-W
+
+oozie jobs -oozie http://hdo300-31.ca.boeing.com:11000/oozie -len 20000 -filter user=svchdphdo4ecfd
 
 ***********************************************************************************************************8
 oozie jobs -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -len 20000 -filter user=svchdphdo4ecfd
@@ -94,11 +98,16 @@ oozie jobs -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -len 20000 -filter 
 
 export HADOOP_CLASSPATH=/data/home/zh722e/datafix/workflow/lib/*
 
-1516845389706_6761
+ job_1563241641170_2873
+ job_1563241641170_2874
+ job_1563241641170_2875
 
-hadoop job -logs job_1536023004097_16852 attempt_1536023004097_16852_m_000000_0 > 11Sep_01.txt
+hadoop job -logs job_1574138608026_3708 attempt_1574138608026_3708_m_000000_0 > 21Nov2019.txt
 
-0043450-180830103410177-oozie-oozi-W
+0309837-191024072130742-oozie-oozi-W
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0309837-191024072130742-oozie-oozi-W
+
+0151447-190827080422502-oozie-oozi-B
 watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0043515-180830103410177-oozie-oozi-W
 
 /usr/hdp/current/phoenix-server/bin/sqlline.py hdo4240-2.ca.boeing.com
@@ -108,9 +117,11 @@ watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0043515-
 
 oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
 
-job_1536614493053_6572 
+job_1576854604623_198311
 
-hadoop job -logs job_1536614493053_6572 attempt_1536614493053_6572_m_000000_0 > Sep_20_01.txt
+hadoop job -logs job_1576854604623_198311 attempt_1576854604623_198311_m_000000_0 >Jan2020_30_03.txt
+
+hadoop fs -ls /user/svchdpprdecfd/prod/cba/archive/ecfdda/input/0065519-190828182653079-oozie-oozi-W/5dc5bd350e16378a6a39b907
 
 job_1536614493053_6578 
 job_1536614493053_6576 

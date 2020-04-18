@@ -1,0 +1,23 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="Ooozie-Java-Test">
+    <start to="sshAction"/>
+    <action name="sshAction">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.queue.name</name>
+                    <value>default</value>
+                </property>
+            </configuration>
+            <main-class>com.hcl.poc.test.prod.HelloWorld</main-class>
+            <arg>arg2</arg>
+        </java>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Hello World failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

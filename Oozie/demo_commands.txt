@@ -17,7 +17,7 @@ watch oozie job -oozie http://mho201-3.ca.boeing.com:11000/oozie -info 0000945-1
 oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -config /data/home/svchdpdevecfd/cbaTest/ecfdda/config/ecfdda-testjob-processing.properties -run -Doutputpath=/user/svchdpdevecfd/dev -Dfilepath=/data/home/svchdpdevecfd/cbaTest/SampleData.json -Dtablename=ecfd_table
 
  0001457-170818111105529-oozie-oozi-B
-watch oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -info 0001386-170818111105529-oozie-oozi-W
+watch oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -info 0038622-190528073847654-oozie-oozi-W
 
 oozie job -oozie http://mho101-9.ca.boeing.com:11000/oozie -log 0001511-170428160213354-oozie-oozi-B
 job_1503080060171_13584KIL
@@ -30,7 +30,9 @@ oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie  -jobtype bundle -le
 
 oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie -jobtype coordinator -filter status=RUNNING
 
+oozie jobs -oozie http://hdo4241-23.ca.boeing.com:11000/oozie -localtime -len 2 -filter status=RUNNING
 
+0103858-190605180938502
 
 oozie jobs -oozie http://mho101-9.ca.boeing.com:11000/oozie -localtime -len 2 -filter status=RUNNING
 
@@ -39,10 +41,15 @@ count 'solution_table' , INTERVAL =>1
 get 'solution_table' , '0000023-180-20170210'
 
 USER_RETRYjob_1503080060171_13595FAILED/KILLEDJA018 
+job_1558752545886_26991 
+job_1558752545886_26993 
+job_1558752545886_27029 
+hadoop job -logs job_1558752545886_26991 attempt_1558752545886_26991_m_000000_0 >> ~/joblogs/6June_2019_1.txt
+hadoop job -logs job_1558752545886_26993 attempt_1558752545886_26993_m_000000_0 >> ~/joblogs/6June_2019_2.txt
+hadoop job -logs job_1558752545886_27029 attempt_1558752545886_27029_m_000000_0 >> ~/joblogs/6June_2019_3.txt
 
-hadoop job -logs job_1503080060171_13595 attempt_1503080060171_13595_m_000000_0 >> ~/joblogs/19Oct_2.txt
-
-job_1528762634898_82476
+job_1559782213537_4502
+hadoop job -logs job_1559782213537_4502 attempt_1559782213537_4502_m_000000_0 >> ~/joblogs/10June_2019_3.txt
 
 hadoop job -logs job_1528762634898_82476 attempt_1528762634898_82476_m_000000_0 > 17July2018_1.txt
 job_1482350278198_0191

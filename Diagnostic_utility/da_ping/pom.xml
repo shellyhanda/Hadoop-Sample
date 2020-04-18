@@ -145,6 +145,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>1.3.3.RELEASE</version>
+         <configuration>
+        <mainClass>com.boeing.da.ping.Application</mainClass>
+         </configuration>
         <executions>
           <execution>
             <goals>

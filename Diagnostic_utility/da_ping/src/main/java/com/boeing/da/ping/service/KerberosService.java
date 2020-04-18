@@ -33,8 +33,8 @@ public class KerberosService {
     try {
       UserGroupInformation.setConfiguration(config);
       UserGroupInformation userGroupInformation = UserGroupInformation.loginUserFromKeytabAndReturnUGI(krbUserPrincipal, krbUserKeytab);
-      UserGroupInformation.loginUserFromKeytab(arg0, arg1);
-      Subject subject
+     // UserGroupInformation.loginUserFromKeytab(arg0, arg1);
+     // Subject subject
       UserGroupInformation.setLoginUser(userGroupInformation);
       LOGGER.info("Kerberos login: SUCCESS");
     } catch (IOException e) {

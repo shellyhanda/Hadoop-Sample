@@ -1,0 +1,7 @@
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
+watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0332605-200211073416735-oozie-oozi-W
+hadoop job -logs job_1581435014604_32127 attempt_1581435014604_32127_m_000000_0 > 13_march_2020_001.txt
+***********************************************************************
+hadoop fs -put HBase-Client-Oozie /dev/ecfd/
+cd HBase-Client-Oozie
+

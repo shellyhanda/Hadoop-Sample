@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Built-By: zh722e
+Start-Class: com.boeing.da.ping.Application
+Spring-Boot-Version: 1.3.3.RELEASE
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_112
+Main-Class: org.springframework.boot.loader.JarLauncher
+

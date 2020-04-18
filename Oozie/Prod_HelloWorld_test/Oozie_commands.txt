@@ -1,0 +1,13 @@
+oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -config job.properties -run
+ 
+ hadoop job -logs job_1532987982362_0001 attempt_1532987982362_0001_m_000000_0 > July_2018_001.txt
+ 
+ 
+ watch oozie job -oozie http://hdo4240-2.ca.boeing.com:11000/oozie -info 0031094-180724202343413-oozie-oozi-W
+job_1532976397003_8022
+ 
+  hadoop job -logs job_1560212123185_2032 attempt_1560212123185_2032_m_000000_0 > 12_June_2019_001.txt
+***********************************************************************
+
+oozie job -oozie http://hdo300-2.ca.boeing.com:11000/oozie -config job.properties -run
+
